@@ -1,0 +1,23 @@
+spring:
+  datasource:         # Oracle dataSource
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@dblab_high?TNS_ADMIN=C:/Oracle/Wallet_DBLab    # use Oracle Wallet
+    username: ss230108
+    password: Spring_105246
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+  thymeleaf:
+     prefix: classpath:/templates/
+     suffix: .html
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type: trace
