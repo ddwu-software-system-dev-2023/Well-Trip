@@ -1,8 +1,6 @@
 package com.project.welltrip.domain;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -18,10 +16,11 @@ import javax.validation.constraints.Size;
 @Setter
 @Getter
 @Entity
+//@NoArgsConstructor // 기본 생성자
+//@RequiredArgsConstructor // 반드시 할당받아야 하는 필드들에 대한 생성자
 @SequenceGenerator(
         name = "USER_SEQ_GENERATOR",
         sequenceName = "USER_SEQ", // 시퀸스 명
-        initialValue = 1, // 초기 값
         allocationSize = 1 // 미리 할당 받을 시퀸스 수
 )
 @Table(name = "userInfo")

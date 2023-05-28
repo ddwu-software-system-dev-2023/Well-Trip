@@ -16,6 +16,7 @@ import org.springframework.web.util.WebUtils;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/join")
@@ -34,18 +35,18 @@ public class UserController {
         this.validator = validator;
     }
 
-    @ModelAttribute("userDto")
-    public UserDto formBackingObject(HttpServletRequest request)
-            throws Exception {
-        UserSession userSession = (UserSession) WebUtils.getSessionAttribute(request, "userSession");
-        if (userSession != null) {	// edit an existing account
-            return new UserDto(
-                    wellTrip.getUser(userSession.getUser().getEmail()));
-        }
-        else {	// create a new account
-            return new UserDto();
-        }
-    }
+//    @ModelAttribute("userDto")
+//    public UserDto formBackingObject(HttpServletRequest request)
+//            throws Exception {
+//        UserSession userSession = (UserSession) WebUtils.getSessionAttribute(request, "userSession");
+//        if (userSession != null) {	// edit an existing account
+//            return new UserDto(
+//                    wellTrip.getUser(userSession.getUser().getEmail()));
+//        }
+//        else {	// create a new account
+//            return new UserDto();
+//        }
+//    }
 
     @RequestMapping(method = RequestMethod.GET)
     public String showForm() {
@@ -69,6 +70,10 @@ public class UserController {
         try {
             if (userDto.isNewUser()) {
                 System.out.println(userDto.getUser());
+                System.out.println(userDto.getUser().getId());
+
+                userDto.getUser().setCreatedDate(LocalDateTime.now());
+
                 wellTrip.insertUser(userDto.getUser());
             }
             else {
