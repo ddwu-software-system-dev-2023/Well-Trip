@@ -57,11 +57,11 @@ public class User implements Serializable {
     @Pattern(regexp="^01\\d{1}\\d{3,4}\\d{4}$")
     private String phone; // 휴대전화
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     @JoinColumn(name="user_id")
     private List<Follow> follows = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     @JoinColumn(name="user_id")
     private List<Dm> dms = new ArrayList<>();
 
