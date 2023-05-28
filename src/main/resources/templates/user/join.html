@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JOIN</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+    <link th:href="@{./css/style.css}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+
+
+
+
+<br>
+
+<div class="container">
+    <div class="card bg-light join_div">
+        <article class="card-body mx-auto" style="max-width: 400px;">
+            <table class="join_table">
+                <tr>
+                    <td>
+                        <img class="login_picture" src="./images/logo.png" alt="logo">
+                    </td>
+                    <td>&nbsp;&nbsp;</td>
+                    <td>
+                        <span class="join_txt"> Well, trip<Br> 회원가입 </span>
+                    </td>
+                </tr>
+            </table>
+
+            <br>
+
+            <form th:object="${userDto}" th:action="@{/join}" method="POST">
+
+                <div class="form-group input-group join_div_input">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text join_div_input"> <i class="fa fa-user"></i> </span>
+                    </div>
+                    <input name="user.firstName" id="firstName" class="form-control join_div_input" autofocus placeholder="영문 이름 (First Name)" type="text">
+<!--                    <div th:if="${#fields.hasErrors('user.firstName')}" th:errors="*{user.firstName}">-->
+<!--                        중복회원-->
+<!--                    </div>-->
+                </div>
+
+
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text join_div_input"> <i class="fa fa-user"></i> </span>
+                    </div>
+                    <input name="user.lastName" class="form-control join_div_input" placeholder="영문 성 (Last Name)" type="text">
+                </div>
+
+
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text join_div_input"> <i class="fa fa-envelope"></i> </span>
+                    </div>
+                    <input name="user.email" class="form-control join_div_input" placeholder="Email" type="email"/>
+
+                </div>
+
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text join_div_input"> <i class="fa fa-phone"></i> </span>
+                    </div>
+                    <input name="user.phone" class="form-control join_div_input" placeholder="Phone" type="text">
+                </div>
+
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text join_div_input"> <i class="fa fa-lock"></i> </span>
+                    </div>
+                    <input name="user.password" class="form-control join_div_input" placeholder="Password" type="password">
+                </div>
+
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text join_div_input"> <i class="fa fa-lock"></i> </span>
+                    </div>
+                    <input name="confirmPassword" class="form-control join_div_input" placeholder="Confirm Password" type="password">
+                </div>
+
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block join_btn">가입하기</button>
+                </div>
+
+                <p class="text-center">Have an account? <a href="">Log In</a></p>
+            </form>
+        </article>
+    </div>
+
+</div>
+    <br>
+</body>
+</html>
