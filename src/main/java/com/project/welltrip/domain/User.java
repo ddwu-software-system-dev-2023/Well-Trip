@@ -30,7 +30,7 @@ import java.util.List;
 @Table(name = "userInfo")
 @SecondaryTable(name = "LOGIN",
         pkJoinColumns = @PrimaryKeyJoinColumn(
-                name = "id", referencedColumnName = "id"))
+                name = "id", referencedColumnName = "user_id"))
 public class User implements Serializable {
 
     @Id
