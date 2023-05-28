@@ -32,6 +32,10 @@ public class Follow {
     @NotEmpty
     private LocalDateTime followDate;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    private User user;
+
     public Follow() {
     }
 

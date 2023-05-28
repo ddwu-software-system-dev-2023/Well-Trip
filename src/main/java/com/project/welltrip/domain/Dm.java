@@ -34,6 +34,10 @@ public class Dm {
 
     private LocalDateTime sendDate; // 수신한 날짜
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    private User user;
+
     public Dm() {}
 
     public Dm(Long dmId) {

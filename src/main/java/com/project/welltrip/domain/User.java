@@ -34,6 +34,7 @@ import java.util.List;
 public class User implements Serializable {
 
     @Id
+    @Column(name="user_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SEQ_GENERATOR")
     private Long id; // User Id
 
@@ -57,11 +58,11 @@ public class User implements Serializable {
     private String phone; // 휴대전화
 
     @OneToMany
-    @JoinColumn(name="id")
+    @JoinColumn(name="user_id")
     private List<Follow> follows = new ArrayList<>();
 
     @OneToMany
-    @JoinColumn(name="id")
+    @JoinColumn(name="user_id")
     private List<Dm> dms = new ArrayList<>();
 
     private LocalDateTime createdDate; // 생성일자
