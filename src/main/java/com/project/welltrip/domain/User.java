@@ -76,4 +76,7 @@ public class User implements Serializable {
     @JoinColumn(name="userId")
     private List<Dm> dms = new ArrayList<>();
 
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
 }
