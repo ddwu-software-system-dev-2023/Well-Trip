@@ -16,6 +16,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
+@Table(name = "comments")
 public class Comment extends BaseEntity {
 
     @Id @GeneratedValue
@@ -27,8 +28,8 @@ public class Comment extends BaseEntity {
     private Post post;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member writer;
+    @JoinColumn(name = "user_id")
+    private UserInfo writer;
 
     private String content;
 }

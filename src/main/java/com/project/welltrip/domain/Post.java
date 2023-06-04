@@ -1,6 +1,7 @@
 package com.project.welltrip.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +21,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
+@Builder
 public class Post extends BaseEntity {
 
     @Id @GeneratedValue
@@ -27,8 +29,8 @@ public class Post extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member writer;
+    @JoinColumn(name = "user_id")
+    private UserInfo writer;
 
     private String title;
     private String content;
