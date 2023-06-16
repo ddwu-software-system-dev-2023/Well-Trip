@@ -1,5 +1,7 @@
 package com.project.welltrip.domain;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,7 +18,9 @@ import static lombok.AccessLevel.PROTECTED;
  */
 @Entity
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor(access = PROTECTED)
+@Builder
 public class Travel extends BaseEntity {
 
     @Id @GeneratedValue

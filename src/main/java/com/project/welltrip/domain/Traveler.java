@@ -22,8 +22,8 @@ public class Traveler {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
+    @JoinColumn(name = "user_id")
+    private UserInfo userInfo;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "travel_id")
