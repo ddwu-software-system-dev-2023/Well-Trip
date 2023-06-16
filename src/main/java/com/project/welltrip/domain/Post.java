@@ -30,7 +30,7 @@ public class Post extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private UserInfo writer;
+    private User writer;
 
     private String title;
     private String content;

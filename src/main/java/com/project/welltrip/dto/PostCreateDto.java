@@ -19,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 public class PostCreateDto {
 
-    private UserInfo writer;
+    private User writer;
 
     @NotBlank(message = "제목을 입력해야 합니다")
     private String title;

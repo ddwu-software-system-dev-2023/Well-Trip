@@ -1,7 +1,7 @@
 package com.project.welltrip.service;
 
 import com.project.welltrip.domain.Post;
-import com.project.welltrip.domain.UserInfo;
+import com.project.welltrip.domain.User;
 import com.project.welltrip.dto.PostCreateDto;
 import com.project.welltrip.dto.PostDto;
 import com.project.welltrip.repository.PostRepository;
@@ -27,9 +27,9 @@ public class PostService {
 
     // 글 작성
     public Post write(Long userId, PostCreateDto postCreateDto) {
-        Optional<UserInfo> findUser = userRepository.findById(userId);
-        UserInfo userInfo = findUser.get();
-        postCreateDto.setWriter(userInfo);
+        Optional<User> findUser = userRepository.findById(userId);
+        User user = findUser.get();
+        postCreateDto.setWriter(user);
         Post post = postRepository.save(postCreateDto.toEntity());
         return post;
     }

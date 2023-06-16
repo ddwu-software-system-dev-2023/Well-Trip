@@ -41,6 +41,10 @@ dependencies {
 	// Additional Jars for High Availability
 	implementation("com.oracle.database.ha:ons")
 	implementation("com.oracle.database.ha:simplefan")
+
+	// 유효성 검사 디펜더시
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 }
 
 tasks.named('test') {

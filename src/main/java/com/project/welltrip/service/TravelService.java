@@ -2,7 +2,7 @@ package com.project.welltrip.service;
 
 import com.project.welltrip.domain.Plan;
 import com.project.welltrip.domain.Travel;
-import com.project.welltrip.domain.UserInfo;
+import com.project.welltrip.domain.User;
 import com.project.welltrip.dto.PlanCreateDto;
 import com.project.welltrip.dto.TravelCreateDto;
 import com.project.welltrip.dto.TravelDto;
@@ -27,16 +27,16 @@ public class TravelService {
 
     // 여행 일정 생성
     public Travel make(Long userId, TravelCreateDto travelCreateDto) {
-        Optional<UserInfo> findUser = userRepository.findById(userId);
-        UserInfo userInfo = findUser.get();
+        Optional<User> findUser = userRepository.findById(userId);
+        User user = findUser.get();
         Travel travel = travelRepository.save(travelCreateDto.toEntity());
         return travel;
     }
 
     // 여행 일정 추가
     public Plan addPlan(Long userId, PlanCreateDto planCreateDto) {
-        Optional<UserInfo> findUser = userRepository.findById(userId);
-        UserInfo userInfo = findUser.get();
+        Optional<User> findUser = userRepository.findById(userId);
+        User user = findUser.get();
         Plan plan = planRepository.save(planCreateDto.toEntity());
         return plan;
     }
