@@ -1,6 +1,5 @@
 package com.project.welltrip.controller;
 
-import com.project.welltrip.domain.UserInfo;
 import com.project.welltrip.dto.PostCreateDto;
 import com.project.welltrip.dto.PostDto;
 import com.project.welltrip.service.PostService;
