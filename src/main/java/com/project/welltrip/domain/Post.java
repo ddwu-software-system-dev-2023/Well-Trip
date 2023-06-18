@@ -35,8 +35,9 @@ public class Post extends BaseEntity {
     private String title;
     private String content;
 
-    @OneToMany(mappedBy = "post")
-    private List<Review> reviews = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "place_id")
+    private Place place;
 
     @OneToMany(mappedBy = "post")
     private List<Comment> comments = new ArrayList<>();
