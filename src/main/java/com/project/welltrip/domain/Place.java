@@ -1,10 +1,12 @@
 package com.project.welltrip.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,7 @@ import static lombok.AccessLevel.PROTECTED;
 @Entity
 @Getter
 @NoArgsConstructor(access = PROTECTED)
+@AllArgsConstructor
 public class Place extends BaseEntity {
 
     @Id @GeneratedValue
@@ -29,7 +32,7 @@ public class Place extends BaseEntity {
     private String content; // 관련 내용 (영업 시간 등)
 
     @OneToMany(mappedBy = "place")
-    private List<Review> reviews = new ArrayList<>();
+    private List<Post> reviews = new ArrayList<>();
 
     private Long latitude;
     private Long longitude;
