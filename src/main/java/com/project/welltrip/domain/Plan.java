@@ -1,5 +1,6 @@
 package com.project.welltrip.domain;
 
+import com.project.welltrip.dto.PlanCreateDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -37,4 +38,11 @@ public class Plan {
     private LocalDateTime endTime;
 
     private String memo;
+
+    public void updatePlan(PlanCreateDto planDto) {
+        this.place = planDto.getPlace();
+        this.startTime = planDto.getStartTime();
+        this.endTime = planDto.getEndTime();
+        this.memo = planDto.getMemo();
+    }
 }
