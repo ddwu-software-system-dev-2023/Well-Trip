@@ -29,7 +29,7 @@ public class Place extends BaseEntity {
     private String content; // 관련 내용 (영업 시간 등)
 
     @OneToMany(mappedBy = "place")
-    private List<Review> reviews = new ArrayList<>();
+    private List<Post> reviews = new ArrayList<>();
 
     private Long latitude;
     private Long longitude;
