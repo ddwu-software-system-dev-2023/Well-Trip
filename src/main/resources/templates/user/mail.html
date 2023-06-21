@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>이메일 인증 번호</title>
+</head>
+<body>
+Well, trip <br>
+이메일 인증
+<br>
+
+마지막 단계입니다. <br>
+입력하신 이메일 주소로 인증 메일을 보냈습니다. <br>
+24시간 이내로 인증을 완료해주세요! <br>
+<br>
+<form th:action="@{/join/mailConfirm}" method="POST">
+    <input type="email" name="email" />
+
+    <button type="submit">확인</button>
+    <br>메일을 못 받으셨나요? <a href="">이메일 다시 보내기</a>
+</form>
+
+</body>
+</html>

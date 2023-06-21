@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Following</title>
+  <link th:href="@{../css/style.css}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+
+<div th:include="~{follow/followHeader :: followerHeader (${userEmail}, ${followerCount}, ${followingCount})}"></div>
+
+
+<div th:fragment="followingList(followingList)">
+  <div class="followBoxs">
+    <div class="followBox4"><a th:href="@{/follow/followerList}" class="txt3">팔로워</a></div>
+    <div class="followBox5"><a th:href="@{/follow/followingList}" class="txt4">팔로잉</a></div>
+  </div>
+  <div class="followBox1">
+    <!--    사용자가 친구 신청한 목록 (팔로잉)-->
+    <div th:if="${followingCount == 0}">&nbsp;</div>
+
+    <table th:if="${followingCount != 0}" class="follower_div">
+      <tr th:each="following : ${followingList}">
+        <td>
+          <div>
+            <div class="UserInfoDiv1">
+              <div class="Ellipse-5"></div>
+              <div class="UserInfoDiv2">
+                <div class="username">
+                  <span th:text="${following.firstName}"> </span>
+                  <span th:text="${following.lastName}"></span>
+                </div>
+
+                <br>
+                <table class="userDetailTable">
+                  <tr>
+                    <th>Email</th>
+                    <td><span th:text="${following.email}"></span></td>
+                  </tr>
+                  <tr>
+                    <th>Created</th>
+                    <td><span th:text="${following.createdDate}"></span></td>
+                  </tr>
+                </table>
+
+              </div>
+            </div>
+            <a class="followerDelete" th:href="@{/follow/unfollow/{followingId}(followingId=${following.id})}">언팔로우</a>
+
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+</div>
+
+
+</body>
+</html>

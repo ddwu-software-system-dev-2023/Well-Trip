@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DM 보내기</title>
+    <link th:href="@{../css/style.css}" rel="stylesheet" type="text/css"/>
+
+    <style>
+        .dmForm_box {
+            width: 600px;
+            border-radius: 20px;
+            box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+            background-image: linear-gradient(to bottom, #D9CDEA 47%, rgba(185, 182, 229, 0) 100%);
+            margin: auto;
+            border: 0;
+            padding: 20px;
+        }
+
+
+        .dmForm_table {
+            margin: auto;
+
+        }
+
+        .dmForm_td {
+            font-weight: bold;
+            color: #fff;
+            font-size: 20px;
+            width: 100px;
+            padding-left: 5px;
+            padding-right: 5px;
+            text-align: center;
+        }
+
+        .dmForm_input {
+            border: #9692cf 1px solid;
+            padding: 10px;
+            border-radius: 20px;
+        }
+
+        .dm_txt {
+            font-weight: bold;
+            color: #fff;
+            font-size: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .dmForm_input {
+            width: 300px;
+        }
+
+        .dmForm_btn {
+            border-radius: 20px;
+            box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+            background-color: #8a87b5;
+            border: 0;
+            font-weight: bold;
+            color: #fff;
+            font-size: 20px;
+            width: 200px;
+        }
+
+        .dmForm_btns {
+            width: 560px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .dmForm_td2 {
+            width: 300px;
+        }
+
+        .error_msg {
+            font-weight: bold;
+            color: darkred;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+
+<br>
+
+<div class="dmForm_box">
+    <div class="dm_txt">🌟 DM 보내기 🌟</div>
+
+    <div class="error_msg">
+        <th:block th:unless="${#strings.isEmpty(message)}" th:text="${message}"></th:block>
+    </div>
+    <br>
+    <form th:object="${dmDto}" th:action="@{/dm/dmForm}" method="POST">
+
+        <table class="dmForm_table">
+            <tr>
+                <td class="dmForm_td">
+                    받는 사람
+                </td>
+                <td class="dmForm_td2">
+                    <!--                    <div class="err_span" th:each="err : ${#fields.errors('dm.receiver')}" th:text="${err}"></div>-->
+                    <!--                    <input class="dmForm_input" th:field="*{dm.receiver}" placeholder="Email" type="email">-->
+                    <input class="dmForm_input" name="dm.receiver" placeholder="Email" type="email">
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="dmForm_td">
+                    보내는 내용
+                </td>
+                <td class="dmForm_td2">
+                    <textarea class="dmForm_input" name="dm.content" placeholder="Type in your message"
+                              rows="5"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="dmForm_td">
+                    <div class="dmForm_btns">
+                        <button type="submit" class="dmForm_btn">전송하기</button>
+                        <button type="reset" class="dmForm_btn">돌아가기</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<br>
+
+<!--<div th:if="${#strings.isEmpty(test)}">-->
+<!--    <div class="dmForm_box">-->
+<!--        <div class="dm_txt">💌 DM 보내기 💌</div>-->
+<!--        &lt;!&ndash;        ✉ 📩 💌 📪 📫 📬 📭&ndash;&gt;-->
+<!--        <div class="error_msg">-->
+<!--            <th:block th:unless="${#strings.isEmpty(message)}" th:text="${message}"></th:block>-->
+<!--        </div>-->
+<!--        <br>-->
+<!--        <form th:object="${dmDto}" th:action="@{/dm}" method="POST">-->
+
+<!--            <table class="dmForm_table">-->
+<!--                <tr>-->
+<!--                    <td class="dmForm_td">-->
+<!--                        받는 사람-->
+<!--                    </td>-->
+<!--                    <td class="dmForm_td2">-->
+<!--                        <input class="dmForm_input" name="dm.receiver" placeholder="receiver" type="email">-->
+<!--                    </td>-->
+<!--                </tr>-->
+
+<!--                <tr>-->
+<!--                    <td>&nbsp;</td>-->
+<!--                    <td>&nbsp;</td>-->
+<!--                </tr>-->
+
+<!--                <tr>-->
+<!--                    <td class="dmForm_td">-->
+<!--                        보내는 내용-->
+<!--                    </td>-->
+<!--                    <td class="dmForm_td2">-->
+<!--                        <textarea class="dmForm_input" name="dm.content" placeholder="Type in your message"-->
+<!--                                  rows="5"></textarea>-->
+<!--                    </td>-->
+<!--                </tr>-->
+
+<!--                <tr>-->
+<!--                    <td colspan="2" class="dmForm_td">-->
+<!--                        <div class="dmForm_btns">-->
+<!--                            <button type="submit" class="dmForm_btn">DM 전송하기</button>-->
+<!--                            <button type="reset" class="dmForm_btn">돌아가기</button>-->
+<!--                        </div>-->
+<!--                    </td>-->
+<!--                </tr>-->
+
+<!--            </table>-->
+<!--            &lt;!&ndash;            <br>&ndash;&gt;-->
+<!--            &lt;!&ndash;            <div class="dmForm_btns">&ndash;&gt;-->
+<!--            &lt;!&ndash;            <button type="submit" class="dmForm_btn">DM 전송하기</button>&ndash;&gt;-->
+<!--            &lt;!&ndash;            <button type="reset" class="dmForm_btn">돌아가기</button>&ndash;&gt;-->
+<!--            &lt;!&ndash;            </div>&ndash;&gt;-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+<!--<div th:unless="${#strings.isEmpty(test)}">-->
+<!--    <div class="dmForm_box">-->
+<!--        <div class="dm_txt">💌 DM 보내기 💌</div>-->
+<!--        <div class="error_msg">-->
+<!--            <th:block th:unless="${#strings.isEmpty(message)}" th:text="${message}"></th:block>-->
+<!--        </div>-->
+<!--        <br>-->
+<!--        <form th:object="${dmDto}" th:action="@{/dm/{dmId}/send}" method="POST">-->
+
+<!--            <table class="dmForm_table">-->
+<!--                <tr>-->
+<!--                    <td class="dmForm_td">-->
+<!--                        받는 사람-->
+<!--                    </td>-->
+<!--                    <td class="dmForm_td2">-->
+<!--                        <input class="dmForm_input" name="dm.receiver" placeholder="receiver" th:value="${test}"-->
+<!--                               type="email">-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                    <td>&nbsp;</td>-->
+<!--                    <td>&nbsp;</td>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                    <td class="dmForm_td">-->
+<!--                        보내는 내용-->
+<!--                    </td>-->
+<!--                    <td class="dmForm_td2">-->
+<!--                        <textarea class="dmForm_input" name="dm.content" placeholder="Type in your message"-->
+<!--                                  rows="5"></textarea>-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                    <td colspan="2" class="dmForm_td">-->
+<!--                        <div class="dmForm_btns">-->
+<!--                            <button type="submit" class="dmForm_btn">전송하기</button>-->
+<!--                        </div>-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                    <td colspan="2" class="dmForm_td">-->
+<!--                        <div class="dmForm_btns">-->
+<!--                            <button type="reset" class="dmForm_btn">돌아가기</button>-->
+<!--                        </div>-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--            </table>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</div>-->
+
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Well, Trip</title>
+    <link th:href="@{./css/style.css}" rel="stylesheet" type="text/css"/>
+
+</head>
+<body>
+
+
+
+
+
+
+
+<div class="login_div">
+
+    <div th:if="${userSession == null}">
+        <a class="login_btn" href="/login">로그인</a>
+        <a class="login_btn" href="/join">회원가입</a>
+        <a class="login_btn" th:href="@{/my-page/edit}">정보 수정</a>
+    </div>
+
+
+    <div th:if="${userSession != null}">
+        <a class="login_btn" href="/logout">로그아웃</a><br>
+        <a class="login_btn" href="/delete">탈퇴하기</a>
+        <a class="login_btn" href="/my-page/edit">정보 수정</a>
+    </div>
+
+    <div th:if="${userSession != null}">
+        <a class="login_btn" href="/follow/followingList">팔로잉 보러가기</a><br>
+        <a class="login_btn" href="/follow/followerList">팔로워 보러가기</a><br>
+    </div>
+
+    <div th:if="${userSession != null}">
+        <a class="login_btn" href="/follow/test">DM 보기</a><br>
+    </div>
+
+    <a class="login_btn" href="/dm/dmList">DM 보기</a><br>
+
+
+
+    <br>
+
+    <p>안녕하세요. 당신의 여행 시작과 끝,<br>
+        Well Trip이 함께 합니다.</p><br><br><br><br>
+    <br><br><br>
+
+
+    <th:block th:unless="${#strings.isEmpty(dmId)}">
+        <p th:text="${dmId}"></p>
+        <a th:href="@{/dm/{dmId}/send}">DM 보내기</a>
+    </th:block>
+</div>
+</body>
+</html>
