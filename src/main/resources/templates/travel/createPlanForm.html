@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <title>게시물 작성</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <!-- Import CDN Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 </head>
 <body>
-<div class="p-5 mb-5 text-center</> bg-light">
-    <h1 class="mb-3">여행 일정</h1>
-    <h4 class="mb-3">디자인은 추후에 수정</h4>
-</div>
+
 
 <div class="container">
+    <!-- Header 위치 -->
+    <div th:include="~{/common/header}"></div>
     <form id="myForm" name="myForm" role="form" th:object="${planForm}" method="post">
         <input type="text" th:field="*{planId}" class="form-control"
                    placeholder="내용을 입력하세요" hidden>
@@ -49,7 +50,11 @@
                 th:onclick="'javascript:cancel('+${tId}+')'">Submit</button>
     </form>
     <br/>
+    <!-- Footer 위치 -->
+    <div th:include="~{/common/footer}"></div>
 </div> <!-- /container -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
 </body>
 <script>
     function cancel(id) {

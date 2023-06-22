@@ -28,6 +28,7 @@ public class PostService {
     private final PlaceRepository placeRepository;
     private final TravelRepository travelRepository;
     private final CommentRepository commentRepository;
+    private final LikeRepository likeRepository;
 
     // 글 작성
     public Post write(Long userId, PostCreateDto postCreateDto) {
@@ -101,6 +102,29 @@ public class PostService {
         Scrap scrap = scrapRepository.findScrap(postId, userId).get();
         scrapRepository.delete(scrap);
         return scrap.getId();
+    }
+
+    // 좋아요 등록
+    public Like createLike(Long userId, Long postId) {
+        User user = userRepository.findById(userId).get();
+        Post post = postRepository.findById(postId).get();
+        // 이미 좋아요를 누른 게시물이라면 X
+        Optional<Like> tmp = likeRepository.findLike(postId, userId);
+
+        if (!tmp.isPresent()) {
+            Like like = new Like(null, user, post);
+            Like saved = likeRepository.save(like);
+            return saved;
+        } else {
+            return null;
+        }
+    }
+
+    // 좋아요 취소
+    public Long deleteLike(Long postId, Long userId) {
+        Like like = likeRepository.findLike(postId, userId).get();
+        likeRepository.delete(like);
+        return like.getId();
     }
 
     // 댓글 등록

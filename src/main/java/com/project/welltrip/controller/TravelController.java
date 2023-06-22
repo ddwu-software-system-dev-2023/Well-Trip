@@ -14,11 +14,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.Mapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -32,6 +30,7 @@ import java.util.List;
  */
 @Controller
 @RequiredArgsConstructor
+@SessionAttributes("userSession")
 public class TravelController {
     private final TravelService travelService;
     private final PlaceRepository placeRepository;
@@ -55,15 +54,18 @@ public class TravelController {
     }
 
     @PostMapping ("/travels/new")
-    public String create(@Valid TravelCreateDto travelForm, BindingResult result) {
+    public String create(HttpServletRequest request, @Valid TravelCreateDto travelForm, BindingResult result) {
         if (result.hasErrors()) {
             return "travel/createTravelForm";
         }
 
+        UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        User user = userSession.getUser();
+
         TravelCreateDto travelCreateDto = new TravelCreateDto(travelForm.getStartDate(), travelForm.getEndDate(), travelForm.getCountry(), travelForm.getScope());
 
         // TODO: userId를 현재 로그인한 유저의 아이디로 변경
-        travelService.createTravel(1L, travelCreateDto);
+        travelService.createTravel(user.getId(), travelCreateDto);
 
         return "redirect:/travels";
     }
@@ -102,20 +104,22 @@ public class TravelController {
 
     // 상세 계획 추가 & 수정
     @PostMapping("/travels/{travelId}/new")
-    public String createPlan(@PathVariable("travelId") Long travelId,
+    public String createPlan(HttpServletRequest request, @PathVariable("travelId") Long travelId,
                              @Valid PlanCreateDto planForm, BindingResult result) {
         if (result.hasErrors()) {
             return "travel/createPlanForm";
         }
 
+        UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        User user = userSession.getUser();
+
         PlanCreateDto planCreateDto = new PlanCreateDto(planForm.getTravelId(), planForm.getPlaceId(), planForm.getPlanId(), null, planForm.getStartTime(), planForm.getEndTime(), planForm.getMemo(), null);
 
         if (planForm.getPlanId() == null) { // 추가
             // TODO: userId를 현재 로그인한 유저의 아이디로 변경
-            travelService.addPlan(1L, planCreateDto);
+            travelService.addPlan(user.getId(), planCreateDto);
         } else { // 수정
-            // TODO: userId를 현재 로그인한 유저의 아이디로 변경
-            travelService.updatePlan(1L, planCreateDto.getPlanId(), planCreateDto);
+            travelService.updatePlan(planCreateDto.getPlanId(), planCreateDto);
         }
 
         return "redirect:/travels/{travelId}";
@@ -148,10 +152,15 @@ public class TravelController {
 
     // 일정 삭제
     @GetMapping("travels/{travelId}/{planId}/delete")
-    public String deletePlan(@PathVariable("travelId") Long travelId,
+    public String deletePlan(HttpServletRequest request,
+                             @PathVariable("travelId") Long travelId,
                              @PathVariable("planId") Long planId) {
+
+        UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        User user = userSession.getUser();
+
         // TODO: userId를 현재 로그인한 유저의 아이디로 변경
-        Long deleted = travelService.deletePlan(1L, planId);
+        Long deleted = travelService.deletePlan(user.getId(), planId);
         return "redirect:/travels/{travelId}";
     }
 

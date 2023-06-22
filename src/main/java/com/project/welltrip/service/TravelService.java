@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -54,12 +55,10 @@ public class TravelService {
     }
 
     // plan 수정
-    public Plan updatePlan(Long userId, Long planId, PlanCreateDto planDto) {
+    public Plan updatePlan(Long planId, PlanCreateDto planDto) {
         Place place = placeRepository.findById(planDto.getPlaceId()).get();
         planDto.setPlace(place);
 
-        Optional<User> findUser = userRepository.findById(userId);
-        User user = findUser.get();
         Plan plan = planRepository.findById(planId).get();
         plan.updatePlan(planDto);
         return plan;
@@ -112,7 +111,7 @@ public class TravelService {
         List<TravelDto> travelDtos = new ArrayList<>();
         for (Travel travel : travels) {
             for (Traveler traveler : travel.getTravelers()) {
-                if (traveler.getUser().getId() == userId) {
+                if (Objects.equals(traveler.getUser().getId(), userId)) {
                     TravelDto travelDto = TravelDto.builder().travel(travel).build();
                     travelDtos.add(travelDto);
                 }

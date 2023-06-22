@@ -6,6 +6,7 @@ import com.project.welltrip.dto.PostCreateDto;
 import com.project.welltrip.dto.PostDto;
 import com.project.welltrip.dto.TravelDto;
 import com.project.welltrip.repository.CommentRepository;
+import com.project.welltrip.repository.LikeRepository;
 import com.project.welltrip.repository.PlaceRepository;
 import com.project.welltrip.repository.PostRepository;
 import com.project.welltrip.service.PostService;
@@ -16,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -26,19 +28,16 @@ import java.util.Optional;
  */
 @Controller
 @RequiredArgsConstructor
+@SessionAttributes("userSession")
 public class PostController {
     private final PostService postService;
     private final TravelService travelService;
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
     private final PlaceRepository placeRepository;
+    private final LikeRepository likeRepository;
 
-//    @ModelAttribute("postDto")
-//    public PostDto formBackingObject() {
-//        PostDto postDto = PostDto.builder().build();
-//        return postDto;
-//    }
-
+    // 게시물 목록 보기
     @GetMapping("/posts")
     public String view(Model model) {
         List<PostDto> postDtos = postService.findAll();
@@ -47,11 +46,15 @@ public class PostController {
     }
 
 
+    // 게시물 등록
     @GetMapping("/posts/new")
-    public String createForm(Model model) {
+    public String createForm(HttpServletRequest request, Model model) {
+        UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        User user = userSession.getUser();
+
         List<Place> places = placeRepository.findAll();
         // TODO 로그인한 유저 id로 바꾸기
-        List<TravelDto> travels = travelService.getMyTravel(1L);
+        List<TravelDto> travels = travelService.getMyTravel(user.getId());
 
         model.addAttribute("places", places);
         model.addAttribute("travels", travels);
@@ -60,19 +63,21 @@ public class PostController {
     }
 
     @PostMapping("posts/new")
-    public String create(@Valid PostCreateDto postForm, BindingResult result) {
+    public String create(HttpServletRequest request, @Valid PostCreateDto postForm, BindingResult result) {
 
         if (result.hasErrors()) {
             return "post/createPostForm";
         }
 
+        UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        User user = userSession.getUser();
+
         PostCreateDto postCreateDto = new PostCreateDto(postForm.getPostId(), null, postForm.getTitle(), postForm.getContent(), postForm.getPlaceId(), postForm.getTravelId(), null, null);
 
         if (postForm.getPostId() == null) { // 추가
             // TODO: userId를 현재 로그인한 유저의 아이디로 변경
-            postService.write(9L, postCreateDto);
+            postService.write(user.getId(), postCreateDto);
         } else { // 수정
-            // TODO: userId를 현재 로그인한 유저의 아이디로 변경
             postService.updatePost(postCreateDto.getPostId(), postCreateDto);
         }
 
@@ -85,22 +90,27 @@ public class PostController {
         PostDto postDto = postService.findOne(postId);
         List<Comment> comments = commentRepository.findByPost(postId);
         CommentDto commentDto = new CommentDto();
+        List<Like> likes = likeRepository.findByPost(postId);
 
         model.addAttribute("post", postDto);
         model.addAttribute("comments", comments);
         model.addAttribute("commentForm", commentDto);
+        model.addAttribute("likeCount", likes.size());
         return "post/postDetail";
     }
 
     // 글 수정
     @GetMapping("posts/{postId}/edit")
-    public String editPost(@PathVariable("postId") Long postId, Model model) {
+    public String editPost(HttpServletRequest request, @PathVariable("postId") Long postId, Model model) {
+        UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        User user = userSession.getUser();
+
         Post post = postRepository.findById(postId).get();
         PostCreateDto postDto = new PostCreateDto(postId, post.getWriter(), post.getTitle(), post.getContent(), post.getPlace().getId(), post.getTravel().getId(), post.getPlace(), post.getTravel());
 
         List<Place> places = placeRepository.findAll();
         // TODO 로그인한 유저 id로 바꾸기
-        List<TravelDto> travels = travelService.getMyTravel(1L);
+        List<TravelDto> travels = travelService.getMyTravel(user.getId());
 
         model.addAttribute("places", places);
         model.addAttribute("travels", travels);
@@ -117,39 +127,74 @@ public class PostController {
 
     // 댓글 등록
     @PostMapping("posts/{postId}/comment")
-    public String addComment(@PathVariable("postId") Long postId, @Valid CommentDto commentForm, BindingResult result) {
+    public String addComment(HttpServletRequest request, @PathVariable("postId") Long postId, @Valid CommentDto commentForm, BindingResult result) {
         if (result.hasErrors()) {
             return "post/createPostForm";
         }
 
+        UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        User user = userSession.getUser();
+
         CommentDto commentDto = new CommentDto(commentForm.getCommentId(), null, null, commentForm.getCreatedDate(), commentForm.getContent());
 
         // TODO: userId를 현재 로그인한 유저의 아이디로 변경
-        postService.createComment(postId, 9L, commentForm);
+        postService.createComment(postId, user.getId(), commentForm);
         return "redirect:/posts/{postId}";
     }
 
     // 댓글 삭제
     @GetMapping("posts/{postId}/comment/delete")
-    public String deleteComment(@PathVariable("postId") Long postId) {
+    public String deleteComment(HttpServletRequest request, @PathVariable("postId") Long postId) {
+        UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        User user = userSession.getUser();
+
         // TODO: userId를 현재 로그인한 유저의 아이디로 변경
-        postService.deleteComment(postId, 9L);
+        postService.deleteComment(postId, user.getId());
         return "redirect:/posts/{postId}";
     }
 
     // 스크랩 등록
     @GetMapping("posts/{postId}/scrap")
-    public String createScrap(@PathVariable("postId") Long postId) {
+    public String createScrap(HttpServletRequest request, @PathVariable("postId") Long postId) {
+        UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        User user = userSession.getUser();
+
         // TODO: userId를 현재 로그인한 유저의 아이디로 변경
-        Scrap scrap = postService.createScrap(9L, postId);
+        Scrap scrap = postService.createScrap(user.getId(), postId);
         return "redirect:/posts/{postId}";
     }
 
     @GetMapping("posts/{postId}/scrap/delete")
-    public String deleteScrap(@PathVariable("postId") Long postId) {
+    public String deleteScrap(HttpServletRequest request, @PathVariable("postId") Long postId) {
+        UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        User user = userSession.getUser();
+
         // TODO: userId를 현재 로그인한 유저의 아이디로 변경
-        postService.deleteScrap(postId, 9L);
+        postService.deleteScrap(postId, user.getId());
         return "redirect:/posts/{postId}";
     }
+
+    // 좋아요 추가
+    @GetMapping("posts/{postId}/like")
+    public String createLike(HttpServletRequest request, @PathVariable("postId") Long postId) {
+        UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        User user = userSession.getUser();
+
+        // TODO: userId를 현재 로그인한 유저의 아이디로 변경
+        Like like = postService.createLike(user.getId(), postId);
+        return "redirect:/posts/{postId}";
+    }
+
+    // 좋아요 취소
+    @GetMapping("posts/{postId}/like/delete")
+    public String deleteLike(HttpServletRequest request, @PathVariable("postId") Long postId) {
+        UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        User user = userSession.getUser();
+
+        // TODO: userId를 현재 로그인한 유저의 아이디로 변경
+        postService.deleteLike(postId, user.getId());
+        return "redirect:/posts/{postId}";
+    }
+
 
 }

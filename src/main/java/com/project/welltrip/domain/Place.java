@@ -26,7 +26,8 @@ public class Place extends BaseEntity {
     @Column(name = "place_id")
     private Long id;
 
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private PlaceType type;
 
     private String name;
     private String content; // 관련 내용 (영업 시간 등)
@@ -34,6 +35,6 @@ public class Place extends BaseEntity {
     @OneToMany(mappedBy = "place")
     private List<Post> reviews = new ArrayList<>();
 
-    private Long latitude;
-    private Long longitude;
+    private double latitude;
+    private double longitude;
 }
