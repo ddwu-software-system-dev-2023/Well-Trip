@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시물 작성</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+</head>
+<body>
+<div class="p-5 mb-5 text-center</> bg-light">
+    <h1 class="mb-3">여행 일정</h1>
+    <h4 class="mb-3">디자인은 추후에 수정</h4>
+</div>
+
+<div class="container">
+    <form role="form" action="/travels/new" th:object="${travelForm}" method="post">
+        <div class="form-group">
+            <label th:for="startDate">여행 시작 날짜</label>
+            <input type="date" th:field="*{startDate}" class="form-control"
+                   placeholder="날짜를 입력하세요(ex.20230618)"
+                   th:class="${#fields.hasErrors('startDate')}? 'form-control fieldError' : 'form-control'">
+            <p th:if="${#fields.hasErrors('startDate')}"
+               th:errors="*{startDate}">Incorrect date</p>
+        </div>
+        <div class="form-group">
+            <label th:for="endDate">여행 끝 날짜</label>
+            <input type="date" th:field="*{endDate}" class="form-control"
+                   placeholder="날짜를 입력하세요(ex.20230618)"
+                   th:class="${#fields.hasErrors('endDate')}? 'form-control fieldError' : 'form-control'">
+            <p th:if="${#fields.hasErrors('endDate')}"
+               th:errors="*{endDate}">Incorrect date</p>
+        </div>
+        <div class="form-group">
+            <label th:for="country">여행할 나라</label>
+            <input type="text" th:field="*{country}" class="form-control"
+                   placeholder="내용을 입력하세요">
+        </div>
+        <div class="form-group">
+            <label th:for="scope">공개범위</label>
+            <select class="form-control" th:field="*{scope}">
+                <option th:each="scopeValue : ${T(com.project.welltrip.domain.DisclosureScope).values()}"
+                        th:value="${scopeValue.name()}"
+                        th:text="${scopeValue.name()}">
+                </option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    <br/>
+</div> <!-- /container -->
+
+</body>
