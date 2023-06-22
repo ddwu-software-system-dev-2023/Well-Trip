@@ -31,7 +31,8 @@ public class DmController {
     private final DmService dmService;
     private final UserService userService;
 
-    @RequestMapping(value={"/dm/dmList", "/dm/receivedDmList"})
+    @RequestMapping(value={"/dm/dmList", "/dm/receivedDmList", "/my-page/dm/dmList",
+    "/my-page/dm/receivedDmList"})
     public ModelAndView dmListShow(HttpServletRequest request) {
 
         UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
@@ -39,7 +40,7 @@ public class DmController {
 
         ModelAndView mv = new ModelAndView();
 
-        if(request.getServletPath().equals("/dm/dmList")) {
+        if(request.getServletPath().equals("/dm/dmList") || request.getServletPath().equals("/my-page/dm/dmList")) {
             mv.setViewName("/dm/dmList");
             List<Dm> dmList = dmService.getDmByReceiver(user.getEmail());
             mv.addObject("dmList", dmList);
@@ -52,13 +53,13 @@ public class DmController {
         return mv;
     }
 
-    @GetMapping("/dm/dmForm")
+    @GetMapping(value={"/dm/dmForm", "/my-page/dm/dmForm"})
     public String dmFormShow(){
         return "dm/dmForm";
     }
 
     //    @RequestMapping({"/dm/dmForm", "/dm/dmForm/{user_Id}"})
-    @PostMapping({"/dm/dmForm"})
+    @PostMapping(value={"/dm/dmForm", "/my-page/dm/dmForm"})
     public ModelAndView onSubmit(
             HttpServletRequest request, Model model,
             @Valid @ModelAttribute("dmDto") DmDto dmDto, BindingResult result) throws Exception {

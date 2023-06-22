@@ -52,7 +52,6 @@
           <th:block th:unless="${#strings.isEmpty(duplicateEmail)}" th:text="${duplicateEmail}"></th:block>
         </div>
 
-        <div class="err_span" th:each="err:${#fields.errors('user.email')}" th:text="${err}"></div>
         <div class="form-group input-group join_div_width">
           <div class="input-group-prepend">
             <span class="input-group-text join_div_input"> <i class="fa fa-envelope"></i> </span>

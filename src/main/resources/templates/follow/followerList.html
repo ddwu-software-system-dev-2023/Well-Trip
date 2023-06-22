@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <title>Follower</title>
-  <link th:href="@{../css/style.css}" rel="stylesheet" type="text/css"/>
+  <link th:href="@{../../css/style.css}" rel="stylesheet" type="text/css"/>
 </head>
 <body>
+
+<div th:include="user/mypageMenu :: mypageMenu "></div>
 
 <div th:include="~{follow/followHeader :: followerHeader (${userEmail}, ${followerCount}, ${followingCount})}"></div>
 

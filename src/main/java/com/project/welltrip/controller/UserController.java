@@ -41,13 +41,13 @@ public class UserController {
         }
     }
 
-    // 회원 가입 GET
+    // 회원 가입 get
     @GetMapping("/join")
     public String showJoinForm() {
         return "user/join";
     }
 
-    // 회원 가입 & 회원 정보 수정
+    // 회원 가입 & 회원 정보 수정 post
     @PostMapping(value={"/join","/my-page/edit"})
     public String join(
             HttpServletRequest request, Model model, HttpSession session,
@@ -55,23 +55,29 @@ public class UserController {
             BindingResult result) throws Exception {
 
         String url;
-        UserSession userSession;
+        UserSession userSession = (UserSession) session.getAttribute("userSession");
         User user = null;
 
         if(request.getServletPath().equals("/join"))
             url = "user/join";
         else {
-            userSession = (UserSession) session.getAttribute("userSession");
             user = userSession.getUser();
             url = "user/edit";
         }
 
+        System.out.println("test!: "+userService.getUserByEmail(userDto.getUser().getEmail()));
+        System.out.println("tset2");
 
         if (result.hasErrors() || !userDto.isSamePassword(userDto.getConfirmPassword())) {
             if (!userDto.isSamePassword(userDto.getConfirmPassword()))
                 model.addAttribute("mismatchPassword", "⛔ Password가 일치 하지 않습니다. ⛔");
-            if (userService.getUserByEmail(userDto.getUser().getEmail()) != null)
-                model.addAttribute("duplicateEmail", "⛔ 이미 사용 중인 email 입니다. ⛔");
+
+            if (request.getServletPath().equals("/join"))
+                if (userService.getUserByEmail(userDto.getUser().getEmail()) != null)
+                    model.addAttribute("duplicateEmail", "⛔ 이미 사용 중인 email 입니다. ⛔");
+
+//            if (userService.getUserByEmail(userDto.getUser().getEmail()) != null && request.getServletPath().equals("/join"))
+//                model.addAttribute("duplicateEmail", "⛔ 이미 사용 중인 email 입니다. ⛔");
 
             userDto.getUser().setPassword(null);
             userDto.setConfirmPassword(null);
@@ -79,7 +85,6 @@ public class UserController {
 
             return url;
         }
-
 
         if (url.equals("user/join")){
             userDto.getUser().setCreatedDate(LocalDateTime.now());
@@ -93,6 +98,7 @@ public class UserController {
         }
     }
 
+    // 회원 정보 수정 get
     @GetMapping("/my-page/edit")
     public String showEditForm(HttpServletRequest request, HttpSession session,
                                @ModelAttribute("userDto") UserDto userDto) {
@@ -105,12 +111,13 @@ public class UserController {
         return "user/edit";
     }
 
-
+    // 이메일 찾기 get
     @GetMapping("/searchId")
     public String showSearchIdForm() {
         return "user/searchId";
     }
 
+    // 이메일 찾기 post
     @PostMapping("/searchId")
     public ModelAndView searchId(HttpServletRequest request) {
 
@@ -164,11 +171,13 @@ public class UserController {
         return mv;
     }
 
+    // 비밀번호 찾기 get
     @GetMapping("/searchPw")
     public String showSearchPwForm() {
         return "user/searchPw";
     }
 
+    //비밀번호 찾기 post
     @PostMapping("/searchPw")
     public ModelAndView searchPw(HttpServletRequest request) throws ParseException {
 
@@ -233,6 +242,7 @@ public class UserController {
     }
 
 
+    // 이메일 중복 체크
     @RequestMapping("/join/existIdCheck")
     public ModelAndView existIdCheck(@ModelAttribute("userDto") UserDto userDto) throws Exception {
 
@@ -251,6 +261,7 @@ public class UserController {
         return mv;
     }
 
+    // 회원 탈퇴
     @GetMapping("/delete")
     public String deleteMem(HttpSession session) throws Exception {
         UserSession userSession = (UserSession) session.getAttribute("userSession");
@@ -261,6 +272,14 @@ public class UserController {
         session.invalidate();
 
         return "redirect:/";
+    }
+
+    @RequestMapping("/my-page")
+    public String myPage(HttpSession session){
+        UserSession userSession = (UserSession) session.getAttribute("userSession");
+        User user = userSession.getUser();
+
+        return "/dm/dmList";
     }
 
 //    @PostMapping("/mailConfirm")

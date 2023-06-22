@@ -21,7 +21,8 @@ public class FollowController {
     private final FollowService followService;
     private final UserService userService;
 
-    @RequestMapping(value = {"/follow/followerList", "/follow/followingList"})
+    @RequestMapping(value = {"/follow/followerList", "/follow/followingList",
+    "/my-page/follow/followerList", "/my-page/follow/followingList"})
     public ModelAndView followList(HttpServletRequest request){
 
         UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
@@ -29,7 +30,8 @@ public class FollowController {
 
         ModelAndView mv = new ModelAndView();
 
-        if(request.getServletPath().equals("/follow/followerList")) {
+        if(request.getServletPath().equals("/follow/followerList")
+        || request.getServletPath().equals("/my-page/follow/followerList")) {
             mv.setViewName("/follow/followerList");
 
             // 사용자를 친구 신청한 목록

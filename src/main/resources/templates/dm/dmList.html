@@ -3,12 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>DM</title>
-    <link th:href="@{../css/style.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{../../css/style.css}" rel="stylesheet" type="text/css"/>
 </head>
 <body>
+
+<div th:include="user/mypageMenu :: mypageMenu "></div>
+
+
+
 <!--✉️ 🌟 🌠-->
 <p class="follow_title_txt">| 🌠 DM </p>
 
+<div class="followBoxs-2">
+    <a href="/dm/dmForm" class="dmList_btn">DM 보내기</a>
+</div>
+<br>
+<br>
 
 <div class="followBoxs">
     <div class="followBox2"><a th:href="@{/dm/dmList}" class="txt1">받은 DM</a></div>
@@ -54,7 +64,5 @@
     </table>
 </div>
 
-<br>
-<a href="/dm/dmForm" class="dmList_btn">DM 보내기</a>
 </body>
 </html>
