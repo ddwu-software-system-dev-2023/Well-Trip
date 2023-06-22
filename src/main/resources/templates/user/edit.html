@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>회원 정보 수정</title>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+  <link th:href="@{../css/style.css}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+
+<br>
+
+<div class="container">
+  <div class="card bg-light join_div">
+    <article class="card-body mx-auto" style="max-width: 400px;">
+      <table class="join_table">
+        <tr>
+          <td>
+            <img class="login_picture" src="../images/logo.png" alt="logo">
+          </td>
+          <td>&nbsp;&nbsp;</td>
+          <td>
+            <span class="join_txt"> Well, trip<Br> 회원정보 수정 </span>
+          </td>
+        </tr>
+      </table>
+
+      <br>
+
+      <form th:object="${userDto}" th:action="@{/my-page/edit}" method="POST">
+
+        <div class="err_span" th:each="err:${#fields.errors('user.firstName')}" th:text="${err}"></div>
+        <div class="form-group input-group join_div_input join_div_width">
+          <div class="input-group-prepend">
+            <span class="input-group-text join_div_input"> <i class="fa fa-user"></i> </span>
+          </div>
+          <label th:for="firstName"></label>
+          <input th:field="*{user.firstName}" class="form-control join_div_input" autofocus placeholder="영문 이름 (First Name)" type="text" style="text-transform: uppercase;">
+        </div>
+
+        <div class="form-group input-group join_div_width">
+          <div class="input-group-prepend">
+            <span class="input-group-text join_div_input"> <i class="fa fa-user"></i> </span>
+          </div>
+          <input th:field="*{user.lastName}" class="form-control join_div_input" placeholder="영문 성 (Last Name)" type="text" style="text-transform: uppercase;">
+        </div>
+
+        <div class="searchIdError_div">
+          <th:block th:unless="${#strings.isEmpty(duplicateEmail)}" th:text="${duplicateEmail}"></th:block>
+        </div>
+
+        <div class="form-group input-group join_div_width">
+          <div class="input-group-prepend">
+            <span class="input-group-text join_div_input"> <i class="fa fa-envelope"></i> </span>
+          </div>
+          <input readonly th:field="*{user.email}" class="form-control join_div_input" placeholder="Email" type="email">
+        </div>
+        <!--                <a class="joinCheck_btn" th:href="@{/join/existIdCheck}" >중복 확인</a>-->
+
+        <div class="err_span" th:each="err:${#fields.errors('user.phone')}" th:text="${err}"></div>
+        <div class="form-group input-group join_div_width">
+          <div class="input-group-prepend">
+            <span class="input-group-text join_div_input"> <i class="fa fa-phone"></i> </span>
+          </div>
+          <input th:field="*{user.phone}" class="form-control join_div_input" placeholder="Phone ex) 010XXXXXXXX" type="text">
+        </div>
+
+        <div class="err_span" th:each="err:${#fields.errors('user.birthDate')}" th:text="${err}"></div>
+        <div class="form-group input-group join_div_width">
+          <div class="input-group-prepend">
+            <span class="input-group-text join_div_input"> <i class="fa fa-birthday-cake"></i> </span>
+          </div>
+          <input th:field="*{user.birthDate}" class="form-control join_div_input" type="date">
+        </div>
+
+        <div class="searchIdError_div">
+          <th:block th:unless="${#strings.isEmpty(mismatchPassword)}" th:text="${mismatchPassword}"></th:block>
+        </div>
+
+        <div class="err_span" th:each="err:${#fields.errors('user.password')}" th:text="${err}"></div>
+        <div class="form-group input-group join_div_width">
+          <div class="input-group-prepend">
+            <span class="input-group-text join_div_input"> <i class="fa fa-lock"></i> </span>
+          </div>
+          <input th:field="*{user.password}" class="form-control join_div_input" placeholder="Password" type="password">
+        </div>
+
+        <div class="err_span" th:each="err:${#fields.errors('confirmPassword')}" th:text="${err}"></div>
+        <div class="form-group input-group join_div_width">
+          <div class="input-group-prepend">
+            <span class="input-group-text join_div_input"> <i class="fa fa-lock"></i> </span>
+          </div>
+          <input th:field="*{confirmPassword}" class="form-control join_div_input" placeholder="Confirm Password" type="password">
+        </div>
+
+
+        <div class="form-group join_div_width">
+          <button type="submit" class="btn btn-primary btn-block join_btn">수정하기</button>
+        </div>
+      </form>
+    </article>
+  </div>
+
+</div>
+<br>
+
+
+
+</body>
+</html>

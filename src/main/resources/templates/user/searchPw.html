@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>비밀번호 찾기</title>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+  <link th:href="@{./css/style.css}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+
+<br>
+
+<div class="container">
+  <div class="card bg-light join_div">
+    <article class="card-body mx-auto" style="max-width: 400px;">
+      <table class="join_table">
+        <tr>
+          <td>
+            <img class="login_picture" src="./images/logo.png" alt="logo">
+          </td>
+          <td>&nbsp;&nbsp;</td>
+          <td>
+            <span class="join_txt"> Well, trip<Br> 비밀번호 찾기 </span>
+          </td>
+        </tr>
+      </table>
+
+      <br>
+      <form th:action="@{/searchPw}" method="post">
+
+        <div class="searchIdError_div">
+          <th:block th:unless="${#strings.isEmpty(emailError)}" th:text="${emailError}"></th:block>
+        </div>
+
+        <div class="searchIdError_div">
+          <th:block th:unless="${#strings.isEmpty(emailError2)}" th:text="${emailError2}"></th:block>
+        </div>
+
+        <div class="form-group input-group join_div_input join_div_width">
+          <div class="input-group-prepend">
+            <span class="input-group-text join_div_input"> <i class="fa fa-envelope"></i> </span>
+          </div>
+          <input name="email" class="form-control join_div_input" autofocus
+                 placeholder="Email" type="email">
+        </div>
+
+        <div class="searchIdError_div">
+          <th:block th:unless="${#strings.isEmpty(birthDateError)}" th:text="${birthDateError}"></th:block>
+        </div>
+        <div class="form-group input-group join_div_width">
+          <div class="input-group-prepend">
+            <span class="input-group-text join_div_input"> <i class="fa fa-birthday-cake"></i> </span>
+          </div>
+          <input name="birthDate" class="form-control join_div_input" type="date">
+        </div>
+
+        <div class="searchIdError_div">
+          <th:block th:unless="${#strings.isEmpty(phoneError)}" th:text="${phoneError}"></th:block>
+        </div>
+        <div class="searchIdError_div">
+          <th:block th:unless="${#strings.isEmpty(phoneError2)}" th:text="${phoneError2}"></th:block>
+        </div>
+        <div class="form-group input-group join_div_width">
+          <div class="input-group-prepend">
+            <span class="input-group-text join_div_input"> <i class="fa fa-phone"></i> </span>
+          </div>
+          <input name="phone" class="form-control join_div_input"
+                 placeholder="Phone ex) 010XXXXXXXX" type="text">
+        </div>
+
+        <div class="form-group join_div_width">
+          <button type="submit" class="btn btn-primary btn-block join_btn">비밀번호 찾기</button>
+        </div>
+
+        <p class="text-center">Have an account? <a href="/login">Log In</a></p>
+      </form>
+    </article>
+  </div>
+</div>
+
+
+</body>
+</html>

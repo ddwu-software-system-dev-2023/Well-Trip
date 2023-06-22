@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>회원 가입 축하합니다!</title>
+</head>
+<body>
+
+<table id="user">
+    <tr>
+        <td>
+            <h3>User Information</h3>
+            <table class="n13">
+                <tr>
+                    <td>User ID:</td>
+                    <td>
+                        <th:if test="${userDto.newUser}">
+                            <input path="user.userId" htmlEscape="false"/>
+                            <th:errors path="password" />
+                        </th:if>
+                        <th:if test="${!userDto.newUser}">
+                            <th:out value="${user.userId}"/>
+                        </th:if>
+                    </td>
+                </tr>
+                <tr>
+                    <td>New password:</td>
+                    <td>
+                        <th:password path="user.password"/>
+                        <B>
+                            <th:errors path="user.password" cssClass="error"/>
+                        </B></td>
+                </tr>
+                <tr>
+                    <td>Repeat password:</td>
+                    <td>
+                        <th:password path="repeatedPassword"/>
+                        <B>
+                            <th:errors path="repeatedPassword" cssClass="error"/>
+                        </B></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<br/>
+
+</form:form>
+<a href="/logout">로그아웃</a><br><br><br>
+
+</div>
+</body>
+</html>

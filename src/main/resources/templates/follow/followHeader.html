@@ -1,0 +1,28 @@
+<div th:fragment="followerHeader (userEmail, followerCount, followingCount)">
+
+  <p class="follow_title_txt">| 💫 팔로우 관리</p>
+
+  <div class="follow_title_div">
+
+    <div class="follow_title_div_img">
+      <img class="follow_picture" src="../images/logo.png" alt="logo"> <br>
+    </div>
+
+    <div class="follow_title_div_txt">
+      <span class="follow_title_email" th:text="${userEmail}"></span>
+      <br>
+
+      <table class="follow__div_txt1">
+        <tr>
+          <td class="follow_td"><span class="text2" th:text="${followerCount}"></span></td>
+          <td class="follow_td"><span class="text2" th:text="${followingCount}"></span></td>
+        </tr>
+        <tr>
+          <td class="follow_td"><span class="text1">팔로워</span><br></td>
+          <td class="follow_td"><span class="text1">팔로잉</span></td>
+        </tr>
+      </table>
+
+    </div>
+  </div>
+</div>

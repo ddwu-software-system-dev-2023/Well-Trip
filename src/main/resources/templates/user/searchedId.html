@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>아이디 찾기</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+    <link th:href="@{./css/style.css}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<!--<th:block th:unless="${#strings.isEmpty(message)}" th:text="${message}"></th:block>-->
+<br>
+<div class="container">
+    <div class="card bg-light join_div">
+        <article class="card-body mx-auto" style="max-width: 400px;">
+            <table class="join_table">
+                <tr>
+                    <td>
+                        <img class="login_picture" src="./images/logo.png" alt="logo">
+                    </td>
+                    <td>&nbsp;&nbsp;</td>
+                    <td>
+                        <span class="join_txt"> Well, trip<Br> 이메일 찾기 </span>
+                    </td>
+                </tr>
+            </table>
+
+            <br>
+
+            <div th:if="${email == null}">
+                <div class="searchId_div1">
+                <span class="searchId_txt2">⛔ 등록되지 않는 회원이거나 <br>
+                    영문 성, 이름 또는 전화번호를
+                    <br>잘못 입력하셨습니다. ⛔</span><br>
+
+                    <!--                <div class="login_txt2">-->
+                    <!--                    <a th:href="@{/login}" class="txt_color">로그인</a>&nbsp;&nbsp;|&nbsp;&nbsp;-->
+                    <!--                    <a th:href="@{/join}" class="txt_color">회원가입&nbsp;&nbsp;|&nbsp;&nbsp;</a><br>-->
+                    <!--                    <a th:href="@{/searchId}" class="txt_color">아이디 찾기&nbsp;&nbsp;|&nbsp;&nbsp;</a>-->
+                    <!--                    <a th:href="@{/join}" class="txt_color">비밀번호 찾기</a>-->
+                    <!--                </div>-->
+                </div>
+                <br>
+                <div class="login_txt2">
+                    <a th:href="@{/login}" class="txt_color">로그인</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                    <a th:href="@{/join}" class="txt_color">회원가입</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                    <a th:href="@{/searchId}" class="txt_color">이메일 찾기</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                    <a th:href="@{/searchPw}" class="txt_color">비밀번호 찾기</a>
+                </div>
+            </div>
+
+            <div th:if="${email != null}" class="searchId_div1">
+                <span class="searchId_txt1">회원님의 아이디는</span><br>
+
+                <div class="searchId_email">
+                    <th:block th:unless="${#strings.isEmpty(email)}" th:text="${email}"></th:block>
+                </div>
+
+                <span class="searchId_txt1">입니다.</span>
+
+                <br><br>
+
+                <div class="login_txt2">
+                    <a th:href="@{/login}" class="txt_color">로그인</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                    <a th:href="@{/join}" class="txt_color">회원가입</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+                    <a th:href="@{/searchPw}" class="txt_color">비밀번호 찾기</a>
+                </div>
+            </div>
+
+
+            <div class="searchIdError_div">
+                <th:block th:unless="${#strings.isEmpty(firstNameError)}" th:text="${firstNameError}"></th:block>
+            </div>
+
+        </article>
+    </div>
+</div>
+
+</body>
+</html>
