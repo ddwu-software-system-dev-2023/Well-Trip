@@ -1,5 +1,6 @@
 package com.project.welltrip.domain;
 
+import com.project.welltrip.dto.PostCreateDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -45,4 +46,11 @@ public class Post extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "travel_id")
     private Travel travel;
+
+    public void updatePost(PostCreateDto postDto) {
+        this.title = postDto.getTitle();
+        this.content = postDto.getContent();
+        this.place = postDto.getPlace();
+        this.travel = postDto.getTravel();
+    }
 }
