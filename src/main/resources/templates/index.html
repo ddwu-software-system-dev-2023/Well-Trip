@@ -17,29 +17,22 @@
 <div class="login_div">
 
     <div th:if="${userSession == null}">
-        <a class="login_btn" href="/login">로그인</a>
-        <a class="login_btn" href="/join">회원가입</a>
-        <a class="login_btn" th:href="@{/my-page/edit}">정보 수정</a>
+        <a class="login_btn" href="/login">로그인</a><br>
+        <a class="login_btn" href="/join">회원가입</a><br>
     </div>
 
 
     <div th:if="${userSession != null}">
         <a class="login_btn" href="/logout">로그아웃</a><br>
-        <a class="login_btn" href="/delete">탈퇴하기</a>
-        <a class="login_btn" href="/my-page/edit">정보 수정</a>
+        <a class="login_btn" href="/delete">탈퇴하기</a><br>
+        <a class="login_btn" href="/my-page/edit">정보 수정</a><br>
     </div>
 
     <div th:if="${userSession != null}">
-        <a class="login_btn" href="/follow/followingList">팔로잉 보러가기</a><br>
-        <a class="login_btn" href="/follow/followerList">팔로워 보러가기</a><br>
+        <a class="login_btn" href="/follow/followingList">팔로잉 보러가기</a><br><br>
+        <a class="login_btn" href="/follow/followerList">팔로워 보러가기</a><br><br>
+        <a class="login_btn" href="/dm/dmList">DM 보기</a><br>
     </div>
-
-    <div th:if="${userSession != null}">
-        <a class="login_btn" href="/follow/test">DM 보기</a><br>
-    </div>
-
-    <a class="login_btn" href="/dm/dmList">DM 보기</a><br>
-
 
 
     <br>
@@ -49,10 +42,10 @@
     <br><br><br>
 
 
-    <th:block th:unless="${#strings.isEmpty(dmId)}">
-        <p th:text="${dmId}"></p>
-        <a th:href="@{/dm/{dmId}/send}">DM 보내기</a>
-    </th:block>
+<!--    <th:block th:unless="${#strings.isEmpty(dmId)}">-->
+<!--        <p th:text="${dmId}"></p>-->
+<!--        <a th:href="@{/dm/{dmId}/send}">DM 보내기</a>-->
+<!--    </th:block>-->
 </div>
 </body>
 </html>

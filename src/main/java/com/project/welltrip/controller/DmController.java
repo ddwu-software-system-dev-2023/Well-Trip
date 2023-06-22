@@ -58,7 +58,7 @@ public class DmController {
     }
 
     //    @RequestMapping({"/dm/dmForm", "/dm/dmForm/{user_Id}"})
-    @RequestMapping({"/dm/dmForm"})
+    @PostMapping({"/dm/dmForm"})
     public ModelAndView onSubmit(
             HttpServletRequest request, Model model,
             @Valid @ModelAttribute("dmDto") DmDto dmDto, BindingResult result) throws Exception {
@@ -78,6 +78,10 @@ public class DmController {
             model.addAttribute("dmDto", dmDto);
             return mv;
         }
+
+        System.out.println("test1: " +userService.getUserByEmail(dmDto.getDm().getReceiver()) == null );
+        System.out.println("test2: "+dmDto.getDm().getReceiver());
+        System.out.println("test3: "+user.getEmail().equals(dmDto.getDm().getReceiver()));
 
         if(userService.getUserByEmail(dmDto.getDm().getReceiver()) == null || user.getEmail().equals(dmDto.getDm().getReceiver())){
             mv.addObject("message","⛔ Invalid content! ⛔");
