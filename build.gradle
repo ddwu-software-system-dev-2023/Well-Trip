@@ -41,6 +41,8 @@ dependencies {
 	// Additional Jars for High Availability
 	implementation("com.oracle.database.ha:ons")
 	implementation("com.oracle.database.ha:simplefan")
+
+	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 }
 
 tasks.named('test') {
