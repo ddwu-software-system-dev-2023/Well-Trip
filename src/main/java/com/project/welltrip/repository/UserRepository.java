@@ -1,16 +1,11 @@
 package com.project.welltrip.repository;
 
-<<<<<<< HEAD
 import java.util.Date;
 import java.util.List;
 import com.project.welltrip.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-=======
-import com.project.welltrip.domain.User;
-import org.springframework.data.jpa.repository.JpaRepository;
->>>>>>> develop
 
 /**
  * written by jiruen
@@ -18,6 +13,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 
 public interface UserRepository extends JpaRepository<User, Long> {
+
 
     // 이메일로 user 찾기
     User findByEmail(String email);
@@ -37,4 +33,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByEmailAndPhoneAndBirthDate(String email, String phone, Date birthDate);
 
     User findByEmailAndPassword(String email, String password);
+
+
+
 }
