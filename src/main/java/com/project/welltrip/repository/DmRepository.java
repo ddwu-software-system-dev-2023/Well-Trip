@@ -14,4 +14,6 @@ public interface DmRepository extends JpaRepository<Dm, Long> {
     List<Dm> findByReceiverAndUser_Id(String receiver, long userId);
 
 
+
+
 }

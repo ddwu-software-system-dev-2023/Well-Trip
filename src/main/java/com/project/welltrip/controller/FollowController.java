@@ -2,14 +2,15 @@ package com.project.welltrip.controller;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
+
 import com.project.welltrip.domain.Follow;
 import com.project.welltrip.domain.User;
 import com.project.welltrip.service.FollowService;
 import com.project.welltrip.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,6 +44,9 @@ public class FollowController {
 
             // 사용자가 친구 신청한 목록
             List<User> followingList = followService.getFollowingList(user.getId());
+
+
+            System.out.println(followingList);
             mv.addObject("followingList", followingList);
 
         }
@@ -91,6 +95,101 @@ public class FollowController {
 
         System.out.println("followId: "+userId);
         return "redirect:/follow/followerList";
+    }
+
+    @PostMapping(value={"/follow/followerSearch", "/follow/followingSearch"})
+    public ModelAndView search(HttpServletRequest request,
+                               @RequestParam("keyword") String keyword){
+
+        UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        User user = userSession.getUser();
+
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("searchDiv", true);
+
+        if(request.getServletPath().equals("/follow/followerSearch")) {
+            if (keyword == "null") {
+                mv.setViewName("/follow/followerList");
+                return mv;
+            }
+
+            mv.setViewName("/follow/followerList");
+
+            List<User> searchFollowerList = followService.getFollowerListByList(user.getId(), keyword);
+            if(searchFollowerList == null)
+                searchFollowerList = null;
+            mv.addObject("searchFollowerList", searchFollowerList);
+        }
+        else {
+
+            if (keyword == "null") {
+                mv.setViewName("/follow/followingList");
+                return mv;
+            }
+
+            mv.setViewName("/follow/followingList");
+
+            // 사용자가 친구 신청한 목록
+            List<User> searchFollowingList = followService.getFollowingListByEmail(user.getId(), keyword);
+            if(searchFollowingList == null)
+                searchFollowingList = null;
+
+            mv.addObject("searchFollowingList", searchFollowingList);
+
+        }
+
+        int following = followService.countFollowing(user.getId());
+        int follower = followService.countFollower(user.getId());
+
+        mv.addObject("keyword", keyword);
+        mv.addObject("userEmail", user.getEmail());
+        mv.addObject("followerCount", follower);
+        mv.addObject("followingCount", following);
+
+        return mv;
+
+    }
+//
+//    @PostMapping(value={"/follow/followSearch"})
+//    public String searchFollow(){
+//        return "";
+//    }
+
+    @GetMapping("/follow/exploreFollow")
+    public ModelAndView exploreFollowForm(HttpServletRequest request){
+        UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        User user = userSession.getUser();
+
+        ModelAndView mv = new ModelAndView();
+
+        List<User> userList = userService.getAllByEmailNot(user.getEmail());
+        mv.addObject("userList", userList);
+
+        mv.setViewName("follow/followExploreForm");
+        return mv;
+    }
+
+    @PostMapping("/follow/exploreFollow")
+    public ModelAndView exploreFollow(HttpServletRequest request,
+                                @RequestParam("keyword") String keyword) {
+
+        UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        User user = userSession.getUser();
+
+        ModelAndView mv = new ModelAndView();
+
+        List<User> userList;
+
+        if(keyword == null)
+            userList = userService.getAllByEmailNot(user.getEmail());
+        else
+            userList = userService.getAllByEmailIsAndEmailNot(keyword, user.getEmail());
+
+        mv.addObject("keyword", keyword);
+        mv.addObject("userList", userList);
+        mv.setViewName("follow/followExploreForm");
+        return mv;
+
     }
 
 

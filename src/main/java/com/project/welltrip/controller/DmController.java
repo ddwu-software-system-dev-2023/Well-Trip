@@ -1,6 +1,7 @@
 package com.project.welltrip.controller;
 
 import com.project.welltrip.domain.Dm;
+import com.project.welltrip.domain.Follow;
 import com.project.welltrip.domain.User;
 import com.project.welltrip.dto.DmDto;
 import com.project.welltrip.repository.DmRepository;
@@ -22,6 +23,7 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -54,8 +56,12 @@ public class DmController {
     }
 
     @GetMapping(value={"/dm/dmForm", "/my-page/dm/dmForm"})
-    public String dmFormShow(){
-        return "dm/dmForm";
+    public ModelAndView dmFormShow(@Valid @ModelAttribute("dmDto") DmDto dmDto, BindingResult result){
+
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("/dm/dmForm");
+        mv.addObject("dmDto");
+        return mv;
     }
 
     //    @RequestMapping({"/dm/dmForm", "/dm/dmForm/{user_Id}"})
@@ -74,17 +80,12 @@ public class DmController {
 
         ModelAndView mv = new ModelAndView();
 
-        System.out.println("test1: " +userService.getUserByEmail(dmDto.getDm().getReceiver()) );
-        System.out.println("test2: "+dmDto.getDm().getReceiver());
-        System.out.println("test3: "+user.getEmail().equals(dmDto.getDm().getReceiver()));
 
         if (result.hasErrors()) {
             mv.setViewName("/dm/dmForm");
             model.addAttribute("dmDto", dmDto);
             return mv;
         }
-
-
 
         if(userService.getUserByEmail(dmDto.getDm().getReceiver()) == null || user.getEmail().equals(dmDto.getDm().getReceiver())){
             mv.setViewName("/dm/dmForm");
@@ -103,11 +104,18 @@ public class DmController {
     }
 
 
-    @GetMapping("/dm/{dmId}")
-    public ModelAndView dmDetails (HttpServletRequest request, @PathVariable Long dmId) throws Exception {
+    @GetMapping("/dm/detailDm/{dmId}")
+    public ModelAndView dmDetails (HttpServletRequest request,
+                                   @Valid @ModelAttribute("dmDto") DmDto dmDto, BindingResult result,
+                                   @PathVariable Long dmId) throws Exception {
+
         ModelAndView mv = new ModelAndView();
-        mv.addObject("dmId", "test@test.com");
-        mv.setViewName("index");
+
+        Dm dm = dmService.getDm(dmId);
+        dmDto.setDm(dm);
+
+        mv.addObject("dmDto", dmDto);
+        mv.setViewName("dm/dmFormDetail");
 
         return mv;
     }
@@ -124,5 +132,16 @@ public class DmController {
 
         mv.setViewName("dm/dmForm");
         return mv;
+    }
+
+    @RequestMapping(value={"/dm/dmList/delete/{dmId}", "/dm/receivedDmList/delete/{dmId}"})
+    public String deleteDm(HttpServletRequest request, @PathVariable long dmId){
+
+        dmService.deleteDm(dmId);
+
+        if(request.getServletPath().equals("/dm/dmList/delete/"+dmId))
+            return "redirect:/dm/dmList/";
+        else
+            return "redirect:/dm/receivedDmList";
     }
 }

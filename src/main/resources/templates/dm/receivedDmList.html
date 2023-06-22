@@ -38,6 +38,7 @@
             <th class="dmList_th dmList_th_width3">
                 날짜
             </th>
+            <th class="dmList_th dmList_th_width4"> 삭제 </th>
         </tr>
 
         <tr th:if="${receivedDmList == null}">
@@ -57,12 +58,15 @@
             <td></td>
             <td></td>
             <td class="dmList_text2 dmList_th_width2">
-                <span th:text="${receivedDm.content}"> </span>
+                <a th:href="@{/dm/detailDm/{dmId}(dmId=${receivedDm.dmId})}" th:text="${receivedDm.content}"> </a>
             </td>
             <td></td>
             <td></td>
             <td class="dmList_text dmList_th_width3">
                 <span th:text="${receivedDm.sendDate}"> </span>
+            </td>
+            <td>
+                <a class="followerDelete" th:href="@{/dm/receivedDmList/delete/{dmId}(dmId=${receivedDm.dmId})}">삭제</a>
             </td>
         </tr>
 

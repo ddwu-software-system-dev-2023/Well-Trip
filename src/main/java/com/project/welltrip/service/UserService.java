@@ -118,4 +118,15 @@ public class UserService {
             throw new Exception("회원 삭제 불가합니다.");
     }
 
+
+    public List<User> getAllByEmailNot(String email){
+        List<User> result = userRepository.findAllByEmailNot(email);
+        return result;
+    }
+
+    public List<User> getAllByEmailIsAndEmailNot(String keyword, String email){
+        List<User> result = userRepository.findAllByEmailIsAndEmailNot(keyword, email);
+        return result;
+    }
+
 }

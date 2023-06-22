@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Follow 탐색하기</title>
+    <link th:href="@{../../css/style.css}" rel="stylesheet" type="text/css"/>
+    <style>
+        .follow_explore_div1 {
+            margin: 30px auto;
+            border: #cac8e7 2px solid;
+            width: 900px;
+        }
+    </style>
+</head>
+<body>
+
+
+<p class="follow_title_txt">| 💫 팔로우 탐색하기</p>
+
+<div class="follow_explore_div1">
+
+    <div class="emailSearchInput">
+        <form th:action="@{/follow/exploreFollow}" method="POST">
+            <input type="text" name="keyword" th:value="${keyword}" class="searhFollowId" placeholder="Email">
+            <button class="dmList_btn2" type="submit">검색하기</button>
+        </form>
+    </div>
+
+
+    <p th:if="${userList == null }"> 검색된 결과가 없습니다.</p>
+
+    <table th:if="${userList != null }" class="follower_div">
+        <tr th:each="user : ${userList}">
+            <td>
+                <div>
+                    <div class="UserInfoDiv1">
+                        <div class="Ellipse-5"></div>
+                        <div class="UserInfoDiv2">
+                            <div class="username">
+                                <span th:text="${user.firstName}"> </span>
+                                <span th:text="${user.lastName}"></span>
+                            </div>
+
+                            <br>
+                            <table class="userDetailTable">
+                                <tr>
+                                    <th>Email</th>
+                                    <td><span th:text="${user.email}"></span></td>
+                                </tr>
+                                <tr>
+                                    <th>Created</th>
+                                    <td><span th:text="${user.createdDate}"></span></td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
+                    <a class="followerDelete"
+                       th:href="@{/follow/delete/{followerId}(followerId=${user.id})}">삭제</a>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+
+</div>
+
+
+</body>
+</html>

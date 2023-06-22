@@ -236,7 +236,7 @@ public class UserController {
 
         mv.addObject("email", user.getEmail());
 
-        mv.addObject("password", "1212121212");
+        mv.addObject("password", user.getPassword());
         mv.setViewName("user/searchedPw");
         return mv;
     }

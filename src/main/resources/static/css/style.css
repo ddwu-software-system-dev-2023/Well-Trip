@@ -372,12 +372,22 @@ a {
 .follower_div {
     width: 600px;
     height: 100px;
+    margin: 30px auto;
+}
+
+.searchError {
+    font-weight: bold;
+    color: #B70404;
+    text-align: center;
+    font-size: 15px;
+    margin: auto;
+}
+
+.follower_div2 {
     border-radius: 2px;
     box-shadow: 3px 3px 3px 0 rgba(0, 0, 0, 0.25);
     border: solid 2px #cac8e7;
     border-left: solid 10px #cac8e7;
-    margin: 10px auto 10px auto;
-
 }
 
 .Ellipse-5 {
@@ -536,6 +546,48 @@ a {
     border: none;
 }
 
+.dmList_btn2 {
+    margin-left: 10px;
+    background-color: #cac8e7;
+    color: #ffffff;
+    border-radius: 20px;
+    font-size: 16px;
+    padding: 8px 20px;
+    font-weight: bold;
+    border: none;
+}
+
+.dmList_btn3 {
+    margin: 10px 240px 10px auto;
+    color: #8a87b5;
+    /*background-color: rgb(222, 248, 254);*/
+    background-color: #DEF8FEFF;
+    /*color: #ffffff;*/
+    border-radius: 20px;
+    font-size: 16px;
+    padding: 8px 20px;
+    font-weight: bold;
+    border: none;
+    float: right;
+}
+
+.emailSearchInput {
+    margin: auto;
+    margin: 10px;
+    display:flex;
+    justify-content:center;
+}
+
+.searhFollowId {
+    width: 250px;
+    padding: 10px 20px;
+    border-radius: 20px;
+    border: solid 1px #cac8e7;
+    color: #8a87b5;
+    font-size: 15px;
+    font-weight: bold;
+}
+
 .dmList_th {
     text-align: center;
     font-weight: bold;
@@ -553,6 +605,10 @@ a {
 
 .dmList_th_width3 {
     width: 200px;
+}
+
+.dmList_th_width4 {
+    width: 50px;
 }
 
 .dmList_text {
