@@ -47,9 +47,9 @@ public class UserService {
 
     // [R] user email로 사용자 찾기
     public User getUserByEmail (String email) {
-        Optional<User> result = Optional.ofNullable(userRepository.findByEmail(email));
-        if(result.isPresent())
-            return result.get();
+        User result = userRepository.findByEmail(email);
+        if(result != null)
+            return result;
         return null;
     }
 

@@ -25,9 +25,9 @@
                     받는 사람
                 </td>
                 <td class="dmForm_td2">
-                    <div class="err_span" th:each="err : ${#fields.errors('dm.receiver')}" th:text="${err}"></div>
-                    <input class="dmForm_input" th:field="*{dm.receiver}" placeholder="Email" type="email">
-<!--                    <input class="dmForm_input" name="dm.receiver" placeholder="Email" type="email">-->
+<!--                    <div class="err_span" th:each="err : ${#fields.errors('dm.receiver')}" th:text="${err}"></div>-->
+<!--                    <input class="dmForm_input" th:field="*{dm.receiver}" placeholder="Email" type="email">-->
+                    <input class="dmForm_input" name="dm.receiver" placeholder="Email" type="email">
                 </td>
             </tr>
             <tr>
@@ -39,8 +39,10 @@
                     보내는 내용
                 </td>
                 <td class="dmForm_td2">
-                    <div class="err_span" th:each="err : ${#fields.errors('dm.receiver')}" th:text="${err}"></div>
-                    <textarea class="dmForm_input" th:field="*{dm.content}" placeholder="Type in your message"
+<!--                    <div class="err_span" th:each="err : ${#fields.errors('dm.receiver')}" th:text="${err}"></div>-->
+<!--                    <textarea class="dmForm_input" th:field="*{dm.content}" placeholder="Type in your message"-->
+<!--                              rows="5"></textarea>-->
+                    <textarea class="dmForm_input" name="dm.content" placeholder="Type in your message"
                               rows="5"></textarea>
                 </td>
             </tr>

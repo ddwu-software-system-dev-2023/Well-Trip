@@ -73,24 +73,28 @@ public class DmController {
 
         ModelAndView mv = new ModelAndView();
 
+        System.out.println("test1: " +userService.getUserByEmail(dmDto.getDm().getReceiver()) );
+        System.out.println("test2: "+dmDto.getDm().getReceiver());
+        System.out.println("test3: "+user.getEmail().equals(dmDto.getDm().getReceiver()));
+
         if (result.hasErrors()) {
             mv.setViewName("/dm/dmForm");
             model.addAttribute("dmDto", dmDto);
             return mv;
         }
 
-        System.out.println("test1: " +userService.getUserByEmail(dmDto.getDm().getReceiver()) == null );
-        System.out.println("test2: "+dmDto.getDm().getReceiver());
-        System.out.println("test3: "+user.getEmail().equals(dmDto.getDm().getReceiver()));
+
 
         if(userService.getUserByEmail(dmDto.getDm().getReceiver()) == null || user.getEmail().equals(dmDto.getDm().getReceiver())){
-            mv.addObject("message","⛔ Invalid content! ⛔");
             mv.setViewName("/dm/dmForm");
+            mv.addObject("message","⛔ Invalid content! ⛔");
+
         } else{
+            mv.setViewName("redirect:/dm/dmList");
             dmDto.getDm().setSendDate(LocalDateTime.now());
             dmDto.getDm().setUser(user);
             dmService.insertDm(dmDto.getDm());
-            mv.setViewName("redirect:/dm/dmList");
+
         }
 
         return mv;
