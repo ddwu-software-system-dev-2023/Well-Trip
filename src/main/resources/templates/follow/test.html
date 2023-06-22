@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Follow</title>
+    <link th:href="@{../css/style.css}" rel="stylesheet" type="text/css"/>
+</head>
+
+<style>
+    .followListA {
+        text-decoration: none;
+        border-radius: 50px;
+        padding: 5px 15px 5px 15px;
+        color: #fff;
+        background-color: #9692cf;
+
+    }
+
+    .text_td {
+        height: 50px;
+        width: 200px;
+        border: #9692cf 1px solid;
+    }
+
+    .followListA:hover {
+        color: #9692cf;
+        background-color: #fff;
+        transition: 1s;
+        border: #9692cf 1px solid;
+    }
+
+    .followListB {
+        text-decoration: none;
+        border-radius: 50px;
+        padding: 5px 15px 5px 15px;
+        color: #fff;
+        background-color: #9692cf;
+        opacity: 0.5;
+    }
+
+    .followListB:hover {
+        color: #fff;
+        background-color: #9692cf;
+        opacity: 100%;
+        transition: 1s;
+    }
+
+    .follow_title_txt {
+        margin: 10px;
+        font-size: 30px;
+        font-weight: bold;
+        color: #9692cf;
+    }
+
+    .follower_div {
+        width: 600px;
+        height: 100px;
+        border-radius: 2px;
+        box-shadow: 3px 3px 3px 0 rgba(0, 0, 0, 0.25);
+        border: solid 2px #cac8e7;
+        border-left: solid 10px #cac8e7;
+        margin: 10px auto 10px auto;
+
+    }
+
+    .Ellipse-5 {
+        width: 60px;
+        height: 60px;
+        background-color: #cac8e7;
+        border-radius: 50%;
+        margin: 10px;
+        float: left;
+        margin: 20px 10px 20px 20px;
+    }
+
+    .username {
+        width: 202px;
+        margin: 3px 0 7px;
+        font-size: 18px;
+        font-weight: bold;
+        text-align: left;
+        float: left;
+        color: #9692cf;
+    }
+
+    .UserInfoDiv2 {
+        width: 50%;
+        float: left;
+        margin: 10px;
+    }
+
+
+    .userDetailTable {
+        color: #c9c8de;
+    }
+
+    .userDetailTable th {
+        text-align: left;
+    }
+
+    .userDetailTable td {
+        padding-left: 10px;
+    }
+
+    .followerDelete {
+        float: right;
+        padding: 5px 10px 5px 10px;
+        border-radius: 20px;
+        border: none;
+        background-color: #cac8e7;
+        color: #fff;
+        font-size: 15px;
+        font-weight: bold;
+        margin: 10px 10px 0 0;
+        text-align: center;
+    }
+
+    .followerDelete:hover {
+        background-color: #8a87b5;
+        color: #fff;
+        transition: 1s;
+    }
+
+    .txt1 {
+        color: #fff;
+        font-size: 20px;
+        font-weight: bold;
+
+    }
+
+    .txt2 {
+        color: #cac8e7;
+        font-size: 20px;
+        font-weight: bold;
+
+    }
+
+
+</style>
+
+<body>
+
+<div th:include="~{follow/followHeader :: followerHeader (${userEmail}, ${followerCount}, ${followingCount})}"></div>
+
+
+<p class="follow_title_txt">| 💫 팔로우 관리</p>
+
+<div class="follow_title_div">
+
+    <div class="follow_title_div_img">
+        <img class="follow_picture" src="../images/logo.png" alt="logo"> <br>
+    </div>
+
+    <div class="follow_title_div_txt">
+        <span class="follow_title_email" th:text="${userEmail}"></span>
+        <br>
+
+        <table class="follow__div_txt1">
+            <tr>
+                <td class="follow_td"><span class="text2" th:text="${followerCount}"></span></td>
+                <td class="follow_td"><span class="text2" th:text="${followingCount}"></span></td>
+            </tr>
+            <tr>
+                <td class="follow_td"><span class="text1">팔로워</span><br></td>
+                <td class="follow_td"><span class="text1">팔로잉</span></td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+
+
+
+<div th:include="~{follow/followerList :: followerList (${followerList})}"></div>
+
+<div class="followBoxs">
+    <div class="followBox2"><a th:href="@{/follow/test}" class="txt1">팔로워</a></div>
+    <div class="followBox3"><a href="#" class="txt2">팔로잉</a></div>
+</div>
+
+<div class="followBox1">
+    <!--    사용자를 친구 신청한 목록 (팔로워)-->
+    <table class="follower_div">
+        <tr th:each="follower : ${followerList}">
+            <td>
+                <div>
+                    <div class="UserInfoDiv1">
+                        <div class="Ellipse-5"></div>
+                        <div class="UserInfoDiv2">
+                            <div class="username">
+                                <span th:text="${follower.firstName}"> </span>
+                                <span th:text="${follower.lastName}"></span>
+                            </div>
+
+                            <br>
+                            <table class="userDetailTable">
+                                <tr>
+                                    <th>Email</th>
+                                    <td><span th:text="${follower.email}"></span></td>
+                                </tr>
+                                <tr>
+                                    <th>Created</th>
+                                    <td><span th:text="${follower.createdDate}"></span></td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
+                    <a class="followerDelete" href="#">삭제</a>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+<div th:include="~{follow/followingList :: followingList (${followingList})}"></div>
+
+
+<table>
+    <tr th:each="test : ${testList}">
+        <!--        <td th:text="${test.createdDate}"></td>-->
+        <td class="text_td" th:text="${test.firstName}"></td>
+        <td class="text_td" th:text="${test.lastName}"></td>
+        <td class="text_td" th:text="${test.email}"></td>
+        <td class="text_td"><a class="followListA" href="#"
+                               th:href="@{/follow/newFollow/{followId}(followId=${test.id})}">
+            Follow
+        </a></td>
+    </tr>
+</table>
+
+<br>
+
+<!--<p>사용자가 친구 신청한 목록 (팔로잉) </p>-->
+<!--<table>-->
+<!--    <tr th:each="following : ${followingList}">-->
+<!--        &lt;!&ndash;        <td th:text="${test.createdDate}"></td>&ndash;&gt;-->
+<!--        <td class="text_td" th:text="${following.firstName}"></td>-->
+<!--        <td class="text_td" th:text="${following.lastName}"></td>-->
+<!--        <td class="text_td" th:text="${following.email}"></td>-->
+<!--        <td class="text_td"><a class="followListB" href="#"-->
+<!--                               th:href="@{/follow/unfollow/{followingId}(followingId=${following.id})}">팔로잉</a>-->
+<!--            &lt;!&ndash;            <a class="followListA" href="#" th:href="@{/follow/newFollow/{followId}(followId=${following.id})}">&ndash;&gt;-->
+<!--            &lt;!&ndash;                팔로우&ndash;&gt;-->
+<!--            &lt;!&ndash;            </a>&ndash;&gt;-->
+<!--        </td>-->
+
+<!--    </tr>-->
+<!--</table>-->
+
+
+<!--<script>-->
+<!--    var returnValue = confirm('친구 신청하시겠습니까?');-->
+<!--    alert(returnValue);-->
+<!--</script>-->
+
+
+</body>
+</html>

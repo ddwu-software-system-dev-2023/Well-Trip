@@ -30,6 +30,10 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+	// 유효성 검사 디펜더시
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+
 	// Get BOM file and choose Oracle JDBC driver (ojdbc8.jar) and Universal Connection Pool (ucp.jar)
 	implementation(enforcedPlatform("com.oracle.database.jdbc:ojdbc-bom:21.1.0.0"))
 	implementation("com.oracle.database.jdbc:ojdbc8")
@@ -42,9 +46,13 @@ dependencies {
 	implementation("com.oracle.database.ha:ons")
 	implementation("com.oracle.database.ha:simplefan")
 
-	// 유효성 검사 디펜더시
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+	// 이메일 인증 디펜저시
+	implementation 'org.springframework.boot:spring-boot-starter-mail:2.7.0'
+	implementation 'javax.mail:mail:1.4'
+	implementation 'org.springframework:spring-context-support:5.3.24'
+	implementation 'org.jasypt:jasypt:1.9.2'
+
+	runtimeOnly 'com.h2database:h2'
 }
 
 tasks.named('test') {

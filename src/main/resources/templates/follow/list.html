@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>follow list</title>
+</head>
+
+<style>
+    .followListA {
+        text-decoration: none;
+        border-radius : 50px;
+        padding: 5px 10px 5px 10px;
+        color: #fff;
+        background-color: #9692cf;
+    }
+
+    td {
+        height: 50px;
+        width: 200px;
+        border: #9692cf 1px solid;
+    }
+
+    .followListA:hover {
+        color: #9692cf;
+        background-color: #fff;
+        /*transition: 1s;*/
+        border: #9692cf 1px solid;
+    }
+
+</style>
+
+팔로워 : <p th:text="${countFollower}"></p> <br>
+팔로잉 : <p th:text="${countFollowee}"></p>
+
+<table>
+    <tr th:each="follower : ${followerList}">
+        <td th:text="${follower.followDate}"></td>
+        <td th:text="${follower.followee}"></td>
+        <td th:text="${follower.followId}"></td>
+        <td> <a class="followListA" href="#" th:href="@{/follow/newFollow/{followId}(followId=${test.followId})}">
+            Follow
+        </a></td>
+
+    </tr>
+</table>
+
+<table>
+    <tr th:each="followee : ${followeeList}">
+        <td th:text="${followee.followDate}"></td>
+        <td th:text="${followee.followee}"></td>
+        <td th:text="${followee.followId}"></td>
+        <td> <a class="followListA" href="#" th:href="@{/follow/newFollow/{followId}(followId=${test.followId})}">
+            Follow
+        </a></td>
+
+    </tr>
+</table>
+
+<body>
+
+</body>
+</html>

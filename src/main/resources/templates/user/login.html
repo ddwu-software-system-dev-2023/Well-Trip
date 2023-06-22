@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>well,trip 로그인</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+    <link th:href="@{./css/style.css}" rel="stylesheet" type="text/css"/>
+</head>
+
+<!--<body bgcolor="#ecebf2">-->
+<body>
+<br>
+
+<div class="login_box">
+    <img class="login_picture" src="./images/logo.png" alt="logo"> <br>
+    <span class="login_txt"> Well, trip </span> <br>
+    <div class="error_txt">
+        <th:block  th:unless = "${#strings.isEmpty(message)}" th:text="${message}"></th:block></div>
+    <form th:action="@{/login}" method="post">
+        <div class="form-group input-group join_div_input">
+            <div class="input-group-prepend">
+                <span class="input-group-text join_div_input"> <i class="fa fa-user"></i> </span>
+            </div>
+            <input name="email" class="form-control join_div_input" autofocus placeholder="email" type="email">
+        </div>
+
+        <div class="form-group input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text join_div_input"> <i class="fa fa-lock"></i> </span>
+            </div>
+            <input name="password" class="form-control join_div_input" placeholder="Password" type="password">
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block join_btn">로그인</button>
+        </div>
+    </form>
+
+    <div class="login_txt2">
+        <a href="/searchId" class="txt_color">이메일 찾기</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <a href="/searchPw" class="txt_color">비밀번호 찾기</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+        <a href="/join" class="txt_color">회원가입</a></div>
+</div>
+</body>
+</html>

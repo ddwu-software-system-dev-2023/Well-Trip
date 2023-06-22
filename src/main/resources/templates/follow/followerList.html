@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Follower</title>
+  <link th:href="@{../../css/style.css}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+
+<div th:include="user/mypageMenu :: mypageMenu "></div>
+
+<div th:include="~{follow/followHeader :: followerHeader (${userEmail}, ${followerCount}, ${followingCount})}"></div>
+
+
+<div th:fragment="followerList(followerList)">
+  <div class="followBoxs">
+    <div class="followBox2"><a th:href="@{/follow/followerList}" class="txt1">팔로워</a></div>
+    <div class="followBox3"><a th:href="@{/follow/followingList}" class="txt2">팔로잉</a></div>
+  </div>
+
+  <div class="followBox1">
+    <!--    사용자를 친구 신청한 목록 (팔로워)-->
+    <div th:if="${followerCount == 0}">&nbsp;</div>
+
+    <table th:if="${followerCount != 0}" class="follower_div">
+      <tr th:each="follower : ${followerList}">
+        <td>
+          <div>
+            <div class="UserInfoDiv1">
+              <div class="Ellipse-5"></div>
+              <div class="UserInfoDiv2">
+                <div class="username">
+                  <span th:text="${follower.firstName}"> </span>
+                  <span th:text="${follower.lastName}"></span>
+                </div>
+
+                <br>
+                <table class="userDetailTable">
+                  <tr>
+                    <th>Email</th>
+                    <td><span th:text="${follower.email}"></span></td>
+                  </tr>
+                  <tr>
+                    <th>Created</th>
+                    <td><span th:text="${follower.createdDate}"></span></td>
+                  </tr>
+                </table>
+
+              </div>
+            </div>
+            <a class="followerDelete" th:href="@{/follow/delete/{followerId}(followerId=${follower.id})}">삭제</a>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+</div>
+
+<!--<table>-->
+<!--    <tr th:each="test : ${testList}">-->
+<!--        &lt;!&ndash;        <td th:text="${test.createdDate}"></td>&ndash;&gt;-->
+<!--        <td class="text_td" th:text="${test.firstName}"></td>-->
+<!--        <td class="text_td" th:text="${test.lastName}"></td>-->
+<!--        <td class="text_td" th:text="${test.email}"></td>-->
+<!--        <td class="text_td"><a class="followListA" href="#"-->
+<!--                               th:href="@{/follow/newFollow/{followId}(followId=${test.id})}">-->
+<!--            Follow-->
+<!--        </a></td>-->
+<!--    </tr>-->
+<!--</table>-->
+
+</body>
+</html>
