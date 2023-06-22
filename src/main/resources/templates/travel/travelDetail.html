@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>블로그 글</title>
+    <title>일정 보기</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <!-- Import CDN Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
@@ -20,24 +20,25 @@
                 <header class="mb-4">
                     <h1 class="fw-bolder mb-1" th:text="${travel.country}"></h1>
                     <div class="text-muted fst-italic mb-2" th:text="|여행 시작 날짜 ${#temporals.format(travel.startDate, 'yyyy-MM-dd')}~|"></div>
-                    <div class="text-muted fst-italic mb-2" th:text="|끝 날짜 ${#temporals.format(travel.endDate, 'yyyy-MM-dd')}|"></div>
+                    <div class="text-muted fst-italic mb-2" th:text="|끝 날짜 ${#temporals.format(travel.endDate, 'yyyy-MM-dd')}|"></div><br>
                     여행자 목록
                     <div th:each="traveler : ${travelers}">
                         <span th:text="|${traveler.lastName} ${traveler.firstName}|"></span>
                         <a th:if="${userId != 0 && !userId.equals(traveler.id)}" th:href="@{/follow/newFollow/{id}(id=${traveler.id})}">팔로우하기</a>
-                    </div>
+                    </div><br>
 
                     <div th:each="traveler : ${travelers}">
                         <div th:if="${traveler.id.equals(userId)}" class="form-group">
-                            <label for="traveler">여행자 추가</label>
+                            <label for="traveler"></label>
                             <select name="traveler" id="traveler" class="form-control">
                                 <option value="">여행자 선택</option>
                                 <option th:each="user : ${users}"
                                         th:value="${user.id}"
                                         th:text="${user.firstName}" />
                             </select>
-                            <button type="button" class="btn btn-primary"
+                            <button type="button" class="btn btn-outline-primary"
                                     th:onclick="'javascript:addTraveler('+${travel.id}+')'">여행자 추가</button>
+                            <br><br>
                         </div>
                         <button th:if="${traveler.id.equals(userId)}" type="button" class="btn btn-primary"
                                 th:onclick="'javascript:add('+${travel.id}+')'">여행 일정 추가</button>
@@ -64,9 +65,9 @@
                             <td th:text="${item.memo}"></td>
 
                             <div th:each="t : ${travelers}">
-                                <td><button th:if="${t.id.equals(userId)}" type="button" class="btn btn-primary"
+                                <td><button th:if="${t.id.equals(userId)}" type="button" class="btn btn-outline-primary"
                                             th:onclick="'javascript:edit('+${item.id}+')'">수정</button></td>
-                                <td><button th:if="${t.id.equals(userId)}" type="button" class="btn btn-primary"
+                                <td><button th:if="${t.id.equals(userId)}" type="button" class="btn btn-outline-danger"
                                             th:onclick="'javascript:drop('+${travel.id}+ ',' +${item.id}+')'">삭제</button></td>
                             </div>
                             <!--

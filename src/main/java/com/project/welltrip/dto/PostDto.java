@@ -3,6 +3,7 @@ package com.project.welltrip.dto;
 import com.project.welltrip.domain.Place;
 import com.project.welltrip.domain.Post;
 import com.project.welltrip.domain.Travel;
+import com.project.welltrip.domain.User;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -12,6 +13,8 @@ import java.time.LocalDateTime;
 public class PostDto {
 
     private Long id;
+
+    private User writer;
 
     private String title;
 
@@ -28,6 +31,7 @@ public class PostDto {
     @Builder
     public PostDto(Post post) {
         this.id = post.getId();
+        this.writer = post.getWriter();
         this.title = post.getTitle();
         this.createdDate = post.getCreatedDate();
         this.lastModifiedDate = post.getLastModifiedDate();

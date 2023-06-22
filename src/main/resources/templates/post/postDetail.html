@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>블로그 글</title>
+  <title>커뮤니티</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
   <!-- Import CDN Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
@@ -22,44 +22,50 @@
           <a th:if="${userId != 0 && !userId.equals(post.writer.id)}" th:href="@{/follow/newFollow/{id}(id=${post.writer.getId()})}">팔로우하기</a>
           <div class="text-muted fst-italic mb-2" th:text="|작성일 ${#temporals.format(post.createdDate, 'yyyy-MM-dd')}|"></div>
 
-          장소
-          <div th:text="${post.place.name}"></div>
+          <div th:if="${post.place != null}" th:text="|장소: ${post.place.name}|"></div>
 
         </header>
         <section class="mb-5">
           <div th:text="${post.content}"></div>
+          <br><br>
 
-          참고할 여행 일정
-          <a th:href="@{/travels/{id}(id=${post.travel.getId()})}">
-            <div th:text="${post.travel.country}"></div>
-          </a>
+          <div th:if="${post.travel != null}">
+            참고할 여행 일정:
+            <a th:href="@{/travels/{id}(id=${post.travel.getId()})}">
+              <div th:text="| ${post.travel.country} (${post.travel.startDate} - ${post.travel.endDate})|"></div>
+            </a>
+          </div><br>
 
-          <button th:if="${post.writer.getId().equals(userId)}" type="button" class="btn btn-primary"
+          <button th:if="${post.writer.getId().equals(userId)}" type="button" class="btn btn-outline-primary"
                   th:onclick="'javascript:edit('+${post.id}+')'">수정</button>
 
-          <button th:if="${post.writer.getId().equals(userId)}" type="button" class="btn btn-primary"
+          <button th:if="${post.writer.getId().equals(userId)}" type="button" class="btn btn-outline-danger"
                   th:onclick="'javascript:drop('+${post.id}+')'">삭제</button>
         </section>
 
         <button type="button" class="btn btn-primary"
                 th:onclick="'javascript:like('+${post.id}+')'">좋아요 <span th:text="${likeCount}"></span></button>
         <button type="button" class="btn btn-primary"
-                th:if=""
                 th:onclick="'javascript:scrap('+${post.id}+')'">스크랩</button>
+        <br><br><br>
 
 
       <section class="mb-6">
         <div th:each="comment : ${comments}">
-          <span th:text="${comment.writer.lastName}"></span>
-          <span th:text="${comment.content}"></span>
+          <hr>
+          <div class="text-muted fst-italic mb-2" th:text="|작성자 ${comment.writer.getLastName()} ${comment.writer.getFirstName()}|"></div>
+          <div class="text-muted fst-italic mb-2" th:text="|작성일 ${#temporals.format(comment.createdDate, 'yyyy-MM-dd')}|"></div>
+          <span th:text="${comment.content}"></span><br><br>
           <a th:if="${userId != 0 && !userId.equals(comment.writer.id)}" th:href="@{/follow/newFollow/{id}(id=${comment.writer.id})}">팔로우하기</a>
           <button th:if="${comment.writer.getId().equals(userId)}" type="button" class="btn btn-primary"
                   th:onclick="'javascript:deleteComment('+${post.id}+')'">삭제</button>
+          <br><br>
         </div>
+        <br><br><br><br>
 
         <form role="form" th:action="@{/posts/__${postId}__/comment}" th:object="${commentForm}" method="post">
           <div class="form-group">
-            <label th:for="content">내용</label>
+            <label th:for="content">댓글 작성란</label>
             <textarea th:field="*{content}" class="form-control"
                       placeholder="댓글을 입력하세요"></textarea>
           </div>
