@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>아이디 찾기</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+    <link th:href="@{./css/style.css}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+
+<br>
+
+<div class="container">
+    <div class="card bg-light join_div">
+        <article class="card-body mx-auto" style="max-width: 400px;">
+            <table class="join_table">
+                <tr>
+                    <td>
+                        <img class="login_picture" src="./images/logo.png" alt="logo">
+                    </td>
+                    <td>&nbsp;&nbsp;</td>
+                    <td>
+                        <span class="join_txt"> Well, trip<Br> 이메일 찾기 </span>
+                    </td>
+                </tr>
+            </table>
+
+            <br>
+            <form th:action="@{/searchId}" method="post">
+
+                <div class="searchIdError_div">
+                    <th:block th:unless="${#strings.isEmpty(firstNameError)}" th:text="${firstNameError}"></th:block>
+                </div>
+
+                <div class="form-group input-group join_div_input join_div_width">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text join_div_input"> <i class="fa fa-user"></i> </span>
+                    </div>
+                    <label th:for="firstName"></label>
+                    <input name="firstName" class="form-control join_div_input" autofocus
+                           placeholder="영문 이름 (First Name)" type="text" style="text-transform: uppercase;">
+                </div>
+
+                <div class="searchIdError_div">
+                    <th:block th:unless="${#strings.isEmpty(lastNameError)}" th:text="${lastNameError}"></th:block>
+                </div>
+                <div class="form-group input-group join_div_width">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text join_div_input"> <i class="fa fa-user"></i> </span>
+                    </div>
+                    <input name="lastName" class="form-control join_div_input"
+                           placeholder="영문 성 (Last Name)" type="text" style="text-transform: uppercase;">
+                </div>
+
+
+                <div class="searchIdError_div">
+                    <th:block th:unless="${#strings.isEmpty(phoneError)}" th:text="${phoneError}"></th:block>
+                </div>
+                <div class="searchIdError_div">
+                    <th:block th:unless="${#strings.isEmpty(phoneError2)}" th:text="${phoneError2}"></th:block>
+                </div>
+                <div class="form-group input-group join_div_width">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text join_div_input"> <i class="fa fa-phone"></i> </span>
+                    </div>
+                    <input name="phone" class="form-control join_div_input"
+                           placeholder="Phone ex) 010XXXXXXXX" type="text">
+                </div>
+
+                <div class="form-group join_div_width">
+                    <button type="submit" class="btn btn-primary btn-block join_btn">아이디 찾기</button>
+                </div>
+
+                <p class="text-center">Have an account? <a href="/login">Log In</a></p>
+            </form>
+        </article>
+    </div>
+</div>
+
+
+아이디 찾기
+<form th:action="@{/searchId}" method="post">
+
+    LastName (영문 성) : <input type="text" name="lastName" style="text-transform: uppercase;">
+    <br>
+    FirstName (영문 이름) : <input type="text" name="firstName" style="text-transform: uppercase;">
+    <br>
+
+    전화번호 : <input type="text" name="phone" placeholder="ex) 01011111111">
+    <br>
+    <button type="submit">이메일 찾기</button>
+
+</form>
+
+
+</body>
+</html>
