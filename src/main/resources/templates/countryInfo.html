@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>나라별 입국자 조치현황</title>
+</head>
+<body>
+<h2>여행할 나라를 입력하세요</h2>
+<h3>예시: 뉴질랜드</h3>
+<!-- country를 입력하고 검색하는 용도 -->
+<form method="GET" th:action="@{/countryInfo}">
+    <input type="text" name="country" />
+    <input type="submit" value="CLick"/>
+</form>
+
+<!-- country를 출력하는 용도 -->
+<ul>
+    <li th:each="infoObj:${infoList}" th:text="${infoObj.country_nm}"></li>
+    <li th:each="infoObj:${infoList}" th:text="${infoObj.country_eng_nm}"></li>
+    <li th:each="infoObj:${infoList}" th:text="${infoObj.txt_origin_cn}"></li>
+</ul>
+
+<!-- 만약 countryInfo의 크기가 0이라면 밑에 내용 출력-->
+<span th:if="${#lists.size('countryInfo') == 0}">검색 결과가 없습니다.</span>
+
+</body>
+</html>
