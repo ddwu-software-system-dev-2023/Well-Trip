@@ -46,7 +46,7 @@
       </div>
 
       <div th:if="${email != null}" class="searchId_div1">
-        <span class="searchId_txt1">회원님의 임시 비밀번호는</span><br>
+        <span class="searchId_txt1">회원님의 비밀번호는</span><br>
 
         <div class="searchId_email">
           <th:block th:unless="${#strings.isEmpty(password)}" th:text="${password}"></th:block>
