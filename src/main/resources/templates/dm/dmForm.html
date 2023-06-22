@@ -27,7 +27,7 @@
                 <td class="dmForm_td2">
 <!--                    <div class="err_span" th:each="err : ${#fields.errors('dm.receiver')}" th:text="${err}"></div>-->
 <!--                    <input class="dmForm_input" th:field="*{dm.receiver}" placeholder="Email" type="email">-->
-                    <input class="dmForm_input" name="dm.receiver" placeholder="Email" type="email">
+                    <input class="dmForm_input" th:field="*{dm.receiver}" placeholder="Email" type="email">
                 </td>
             </tr>
             <tr>
@@ -42,7 +42,7 @@
 <!--                    <div class="err_span" th:each="err : ${#fields.errors('dm.receiver')}" th:text="${err}"></div>-->
 <!--                    <textarea class="dmForm_input" th:field="*{dm.content}" placeholder="Type in your message"-->
 <!--                              rows="5"></textarea>-->
-                    <textarea class="dmForm_input" name="dm.content" placeholder="Type in your message"
+                    <textarea class="dmForm_input" th:field="*{dm.content}" placeholder="Type in your message"
                               rows="5"></textarea>
                 </td>
             </tr>
@@ -59,112 +59,6 @@
 </div>
 
 <br>
-
-<!--<div th:if="${#strings.isEmpty(test)}">-->
-<!--    <div class="dmForm_box">-->
-<!--        <div class="dm_txt">💌 DM 보내기 💌</div>-->
-<!--        &lt;!&ndash;        ✉ 📩 💌 📪 📫 📬 📭&ndash;&gt;-->
-<!--        <div class="error_msg">-->
-<!--            <th:block th:unless="${#strings.isEmpty(message)}" th:text="${message}"></th:block>-->
-<!--        </div>-->
-<!--        <br>-->
-<!--        <form th:object="${dmDto}" th:action="@{/dm}" method="POST">-->
-
-<!--            <table class="dmForm_table">-->
-<!--                <tr>-->
-<!--                    <td class="dmForm_td">-->
-<!--                        받는 사람-->
-<!--                    </td>-->
-<!--                    <td class="dmForm_td2">-->
-<!--                        <input class="dmForm_input" name="dm.receiver" placeholder="receiver" type="email">-->
-<!--                    </td>-->
-<!--                </tr>-->
-
-<!--                <tr>-->
-<!--                    <td>&nbsp;</td>-->
-<!--                    <td>&nbsp;</td>-->
-<!--                </tr>-->
-
-<!--                <tr>-->
-<!--                    <td class="dmForm_td">-->
-<!--                        보내는 내용-->
-<!--                    </td>-->
-<!--                    <td class="dmForm_td2">-->
-<!--                        <textarea class="dmForm_input" name="dm.content" placeholder="Type in your message"-->
-<!--                                  rows="5"></textarea>-->
-<!--                    </td>-->
-<!--                </tr>-->
-
-<!--                <tr>-->
-<!--                    <td colspan="2" class="dmForm_td">-->
-<!--                        <div class="dmForm_btns">-->
-<!--                            <button type="submit" class="dmForm_btn">DM 전송하기</button>-->
-<!--                            <button type="reset" class="dmForm_btn">돌아가기</button>-->
-<!--                        </div>-->
-<!--                    </td>-->
-<!--                </tr>-->
-
-<!--            </table>-->
-<!--            &lt;!&ndash;            <br>&ndash;&gt;-->
-<!--            &lt;!&ndash;            <div class="dmForm_btns">&ndash;&gt;-->
-<!--            &lt;!&ndash;            <button type="submit" class="dmForm_btn">DM 전송하기</button>&ndash;&gt;-->
-<!--            &lt;!&ndash;            <button type="reset" class="dmForm_btn">돌아가기</button>&ndash;&gt;-->
-<!--            &lt;!&ndash;            </div>&ndash;&gt;-->
-<!--        </form>-->
-<!--    </div>-->
-<!--</div>-->
-
-
-<!--<div th:unless="${#strings.isEmpty(test)}">-->
-<!--    <div class="dmForm_box">-->
-<!--        <div class="dm_txt">💌 DM 보내기 💌</div>-->
-<!--        <div class="error_msg">-->
-<!--            <th:block th:unless="${#strings.isEmpty(message)}" th:text="${message}"></th:block>-->
-<!--        </div>-->
-<!--        <br>-->
-<!--        <form th:object="${dmDto}" th:action="@{/dm/{dmId}/send}" method="POST">-->
-
-<!--            <table class="dmForm_table">-->
-<!--                <tr>-->
-<!--                    <td class="dmForm_td">-->
-<!--                        받는 사람-->
-<!--                    </td>-->
-<!--                    <td class="dmForm_td2">-->
-<!--                        <input class="dmForm_input" name="dm.receiver" placeholder="receiver" th:value="${test}"-->
-<!--                               type="email">-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td>&nbsp;</td>-->
-<!--                    <td>&nbsp;</td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td class="dmForm_td">-->
-<!--                        보내는 내용-->
-<!--                    </td>-->
-<!--                    <td class="dmForm_td2">-->
-<!--                        <textarea class="dmForm_input" name="dm.content" placeholder="Type in your message"-->
-<!--                                  rows="5"></textarea>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td colspan="2" class="dmForm_td">-->
-<!--                        <div class="dmForm_btns">-->
-<!--                            <button type="submit" class="dmForm_btn">전송하기</button>-->
-<!--                        </div>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                <tr>-->
-<!--                    <td colspan="2" class="dmForm_td">-->
-<!--                        <div class="dmForm_btns">-->
-<!--                            <button type="reset" class="dmForm_btn">돌아가기</button>-->
-<!--                        </div>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--            </table>-->
-<!--        </form>-->
-<!--    </div>-->
-<!--</div>-->
 
 
 </body>

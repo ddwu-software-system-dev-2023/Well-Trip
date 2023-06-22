@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DM Detail</title>
+  <link th:href="@{../../css/style.css}" rel="stylesheet" type="text/css"/>
+
+</head>
+<body>
+
+<br>
+
+<div class="dmForm_box">
+  <div class="dm_txt">🌟 DM 상세 정보 🌟</div>
+
+  <br>
+  <form th:object="${dmDto}" th:action="@{/dm/dmForm}" method="POST">
+
+    <table class="dmForm_table">
+      <tr>
+        <td class="dmForm_td">
+          보낸 사람
+        </td>
+        <td class="dmForm_td2">
+          <input readonly class="dmForm_input" th:field="*{dm.user.email}" placeholder="Email" type="email">
+        </td>
+      </tr>
+      <tr>
+        <td class="dmForm_td">
+          받는 사람
+        </td>
+        <td class="dmForm_td2">
+          <input readonly class="dmForm_input" th:field="*{dm.receiver}" placeholder="Email" type="email">
+        </td>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td class="dmForm_td">
+          보내는 내용
+        </td>
+        <td class="dmForm_td2">
+          <textarea readonly class="dmForm_input" th:field="*{dm.content}" placeholder="Type in your message"
+                    rows="5"></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="dmForm_td">
+          <div class="dmForm_btns">
+            <a th:href="@{/dm/dmList}" type="submit" class="dmForm_btn">DM 목록으로 돌아가기</a>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>
+
+<br>
+
+
+</body>
+</html>

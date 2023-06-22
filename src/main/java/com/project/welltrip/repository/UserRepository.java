@@ -15,6 +15,9 @@ import org.springframework.data.jpa.repository.Query;
 public interface UserRepository extends JpaRepository<User, Long> {
 
 
+    @Query("select u from User u where u.id = ?1")
+    User findUser(long userId);
+
     // 이메일로 user 찾기
     User findByEmail(String email);
 
@@ -33,6 +36,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByEmailAndPhoneAndBirthDate(String email, String phone, Date birthDate);
 
     User findByEmailAndPassword(String email, String password);
+
+    List<User> findAllByEmailNot(String email);
+
+    List<User> findAllByEmailIsAndEmailNot(String keyword, String email);
 
 
 
