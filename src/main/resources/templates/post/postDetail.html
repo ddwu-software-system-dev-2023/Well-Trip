@@ -18,7 +18,8 @@
       <article>
         <header class="mb-4">
           <h1 class="fw-bolder mb-1" th:text="${post.title}"></h1>
-
+          <div class="text-muted fst-italic mb-2" th:text="|작성자 ${post.writer.getLastName()} ${post.writer.getFirstName()}|"></div>
+          <a th:if="${userId != 0 && !userId.equals(post.writer.id)}" th:href="@{/follow/newFollow/{id}(id=${post.writer.getId()})}">팔로우하기</a>
           <div class="text-muted fst-italic mb-2" th:text="|작성일 ${#temporals.format(post.createdDate, 'yyyy-MM-dd')}|"></div>
 
           장소
@@ -29,18 +30,21 @@
           <div th:text="${post.content}"></div>
 
           참고할 여행 일정
-          <div th:text="${post.travel.country}"></div>
+          <a th:href="@{/travels/{id}(id=${post.travel.getId()})}">
+            <div th:text="${post.travel.country}"></div>
+          </a>
 
-          <button type="button" class="btn btn-primary"
+          <button th:if="${post.writer.getId().equals(userId)}" type="button" class="btn btn-primary"
                   th:onclick="'javascript:edit('+${post.id}+')'">수정</button>
 
-          <button type="button" class="btn btn-primary"
+          <button th:if="${post.writer.getId().equals(userId)}" type="button" class="btn btn-primary"
                   th:onclick="'javascript:drop('+${post.id}+')'">삭제</button>
         </section>
 
         <button type="button" class="btn btn-primary"
                 th:onclick="'javascript:like('+${post.id}+')'">좋아요 <span th:text="${likeCount}"></span></button>
         <button type="button" class="btn btn-primary"
+                th:if=""
                 th:onclick="'javascript:scrap('+${post.id}+')'">스크랩</button>
 
 
@@ -48,7 +52,8 @@
         <div th:each="comment : ${comments}">
           <span th:text="${comment.writer.lastName}"></span>
           <span th:text="${comment.content}"></span>
-          <button type="button" class="btn btn-primary"
+          <a th:if="${userId != 0 && !userId.equals(comment.writer.id)}" th:href="@{/follow/newFollow/{id}(id=${comment.writer.id})}">팔로우하기</a>
+          <button th:if="${comment.writer.getId().equals(userId)}" type="button" class="btn btn-primary"
                   th:onclick="'javascript:deleteComment('+${post.id}+')'">삭제</button>
         </div>
 

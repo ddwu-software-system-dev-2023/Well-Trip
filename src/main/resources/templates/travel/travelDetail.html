@@ -23,22 +23,26 @@
                     <div class="text-muted fst-italic mb-2" th:text="|끝 날짜 ${#temporals.format(travel.endDate, 'yyyy-MM-dd')}|"></div>
                     여행자 목록
                     <div th:each="traveler : ${travelers}">
-                        <span th:text="${traveler.id}"></span>
+                        <span th:text="|${traveler.lastName} ${traveler.firstName}|"></span>
+                        <a th:if="${userId != 0 && !userId.equals(traveler.id)}" th:href="@{/follow/newFollow/{id}(id=${traveler.id})}">팔로우하기</a>
                     </div>
 
-                    <div class="form-group">
-                        <label for="traveler">여행자 추가</label>
-                        <select name="traveler" id="traveler" class="form-control">
-                            <option value="">여행자 선택</option>
-                            <option th:each="user : ${users}"
-                                    th:value="${user.id}"
-                                    th:text="${user.firstName}" />
-                        </select>
-                        <button type="button" class="btn btn-primary"
-                                th:onclick="'javascript:addTraveler('+${travel.id}+')'">여행자 추가</button>
+                    <div th:each="traveler : ${travelers}">
+                        <div th:if="${traveler.id.equals(userId)}" class="form-group">
+                            <label for="traveler">여행자 추가</label>
+                            <select name="traveler" id="traveler" class="form-control">
+                                <option value="">여행자 선택</option>
+                                <option th:each="user : ${users}"
+                                        th:value="${user.id}"
+                                        th:text="${user.firstName}" />
+                            </select>
+                            <button type="button" class="btn btn-primary"
+                                    th:onclick="'javascript:addTraveler('+${travel.id}+')'">여행자 추가</button>
+                        </div>
+                        <button th:if="${traveler.id.equals(userId)}" type="button" class="btn btn-primary"
+                                th:onclick="'javascript:add('+${travel.id}+')'">여행 일정 추가</button>
                     </div>
-                    <button type="button" class="btn btn-primary"
-                            th:onclick="'javascript:add('+${travel.id}+')'">여행 일정 추가</button>
+
                 </header>
                 <section class="mb-5">
                     <table class="table table-striped">
@@ -58,10 +62,19 @@
                             <td th:text="${item.startTime}"></td>
                             <td th:text="${item.endTime}"></td>
                             <td th:text="${item.memo}"></td>
+
+                            <div th:each="t : ${travelers}">
+                                <td><button th:if="${t.id.equals(userId)}" type="button" class="btn btn-primary"
+                                            th:onclick="'javascript:edit('+${item.id}+')'">수정</button></td>
+                                <td><button th:if="${t.id.equals(userId)}" type="button" class="btn btn-primary"
+                                            th:onclick="'javascript:drop('+${travel.id}+ ',' +${item.id}+')'">삭제</button></td>
+                            </div>
+                            <!--
                             <td><button type="button" class="btn btn-primary"
                                         th:onclick="'javascript:edit('+${item.id}+')'">수정</button></td>
                             <td><button type="button" class="btn btn-primary"
                                         th:onclick="'javascript:drop('+${travel.id}+ ',' +${item.id}+')'">삭제</button></td>
+                                        !-->
                         </tr>
                         </tbody>
                     </table>
@@ -74,6 +87,9 @@
             </article>
         </div>
     </div>
+
+    <!-- Footer 위치 -->
+    <div th:include="~{/common/footer}"></div>
 </div>
 
 </body>

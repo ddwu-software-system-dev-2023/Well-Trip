@@ -40,15 +40,48 @@ public class TravelController {
 
     // 여행 일정 리스트
     @GetMapping("/travels")
-    public String view(Model model) {
-        List<TravelDto> travelDtos = travelService.findTravels();
+    public String view(HttpServletRequest request, Model model) {
+        UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        User user = null;
+        List<TravelDto> travelDtos;
+        if (userSession != null) {
+            user = userSession.getUser();
+            travelDtos = travelService.findTravels(user.getId());
+        } else {
+            travelDtos = travelService.findTravels(0L);
+        }
+
         model.addAttribute("travels", travelDtos);
+        if (user == null) {
+            model.addAttribute("userId", 0);
+        } else {
+            model.addAttribute("userId", user.getId());
+        }
+        return "travel/travelList";
+    }
+
+    // 나의 일정 리스트
+    @GetMapping("/travels/my/{userId}")
+    public String getMyTravel(HttpServletRequest request, @PathVariable("userId") Long userId, Model model) {
+        UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        if (userSession == null) {
+            return "redirect:/login";
+        }
+        User user = userSession.getUser();
+        List<TravelDto> travelDtos = travelService.getMyTravel(user.getId());
+        model.addAttribute("travels", travelDtos);
+        model.addAttribute("userId", user.getId());
         return "travel/travelList";
     }
 
     // 여행 일정 추가
     @GetMapping("/travels/new")
-    public String createForm(Model model) {
+    public String createForm(HttpServletRequest request, Model model) {
+        UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        if (userSession == null) {
+            return "redirect:/login";
+        }
+
         model.addAttribute("travelForm", new TravelCreateDto());
         return "travel/createTravelForm";
     }
@@ -60,6 +93,9 @@ public class TravelController {
         }
 
         UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        if (userSession == null) {
+            return "redirect:/login";
+        }
         User user = userSession.getUser();
 
         TravelCreateDto travelCreateDto = new TravelCreateDto(travelForm.getStartDate(), travelForm.getEndDate(), travelForm.getCountry(), travelForm.getScope());
@@ -72,7 +108,13 @@ public class TravelController {
 
     // 여행 일정 상세보기
     @GetMapping("/travels/{travelId}")
-    public String viewDetail(@PathVariable("travelId") Long travelId, Model model) {
+    public String viewDetail(HttpServletRequest request, @PathVariable("travelId") Long travelId, Model model) {
+        UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        User user = null;
+        if (userSession != null) {
+            user = userSession.getUser();
+        }
+
         TravelDto travelDto = travelService.findOne(travelId);
         model.addAttribute("travel", travelDto);
 
@@ -85,6 +127,11 @@ public class TravelController {
             users.remove(traveler);
         }
         model.addAttribute("users", users);
+        if (user == null) {
+            model.addAttribute("userId", 0);
+        } else {
+            model.addAttribute("userId", user.getId());
+        }
 
         return "travel/travelDetail";
     }
@@ -111,6 +158,9 @@ public class TravelController {
         }
 
         UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        if (userSession == null) {
+            return "redirect:/login";
+        }
         User user = userSession.getUser();
 
         PlanCreateDto planCreateDto = new PlanCreateDto(planForm.getTravelId(), planForm.getPlaceId(), planForm.getPlanId(), null, planForm.getStartTime(), planForm.getEndTime(), planForm.getMemo(), null);
@@ -157,6 +207,9 @@ public class TravelController {
                              @PathVariable("planId") Long planId) {
 
         UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        if (userSession == null) {
+            return "redirect:/login";
+        }
         User user = userSession.getUser();
 
         // TODO: userId를 현재 로그인한 유저의 아이디로 변경

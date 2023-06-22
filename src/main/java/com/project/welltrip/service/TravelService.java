@@ -94,8 +94,20 @@ public class TravelService {
 
     // 여행 일정 확인
     @Transactional(readOnly = true)
-    public List<TravelDto> findTravels() {
-        List<Travel> travels = travelRepository.findAll();
+    public List<TravelDto> findTravels(Long userId) {
+        //List<Travel> travels = travelRepository.findAll();
+        List<Travel> travels = travelRepository.findByScope(DisclosureScope.PUBLIC);
+        if (!userId.equals(0L)) {
+            List<Travel> byScope = travelRepository.findByScope(DisclosureScope.PRIVATE);
+            for (Travel travel : byScope) {
+                for (Traveler traveler : travel.getTravelers()) {
+                    if (Objects.equals(traveler.getUser().getId(), userId)) {
+                        travels.add(travel);
+                        break;
+                    }
+                }
+            }
+        }
         List<TravelDto> travelDtos = new ArrayList<>();
         for (Travel travel : travels) {
             TravelDto travelDto = TravelDto.builder().travel(travel).build();

@@ -4,5 +4,5 @@ package com.project.welltrip.domain;
  * date: 23.05.28
  */
 public enum DisclosureScope {
-    PUBLIC, PRIVATE, FRIEND
+    PUBLIC, PRIVATE
 }

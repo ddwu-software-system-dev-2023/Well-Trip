@@ -13,7 +13,10 @@
 <div class="container">
     <!-- Header 위치 -->
     <div th:include="~{/common/header}"></div>
-
+    <button type="button"
+            th:if="${userId} != 0"
+            th:onclick="'javascript:getMyTravel('+${userId}+')'"
+            class="btn btn-secondary btn-sm mb-3">나의 일정 보기</button>
         <button type="button" id="create-btn"
                 th:onclick="|location.href='@{/travels/new}'|"
                 class="btn btn-secondary btn-sm mb-3">여행 일정 등록</button>
@@ -35,5 +38,10 @@
     <div th:include="~{/common/footer}"></div>
 </div>
 
-<script src="/js/article.js"></script>
+<script>
+    function getMyTravel(userId) {
+        const link = "/travels/my/" + userId;
+        location.href = link;
+    }
+</script>
 </body>

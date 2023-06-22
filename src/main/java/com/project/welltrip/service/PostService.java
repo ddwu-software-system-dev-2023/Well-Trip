@@ -61,6 +61,31 @@ public class PostService {
         return postDtos;
     }
 
+
+    // 스크랩한 글 확인
+    public List<PostDto> findMyScrap(Long userId) {
+        List<Post> posts = scrapRepository.findPost(userId);
+        List<PostDto> postDtos = new ArrayList<>();
+        for (Post post : posts) {
+            PostDto postDto = PostDto.builder().post(post).build();
+            postDtos.add(postDto);
+        }
+        return postDtos;
+    }
+
+    // 내가 쓴 글 확인
+    public List<PostDto> findMyPost(Long userId) {
+        List<Post> posts = postRepository.findAll();
+        List<PostDto> postDtos = new ArrayList<>();
+        for (Post post : posts) {
+            if (post.getWriter().getId().equals(userId)) {
+                PostDto postDto = PostDto.builder().post(post).build();
+                postDtos.add(postDto);
+            }
+        }
+        return postDtos;
+    }
+
     // 글 상세보기
     @Transactional(readOnly = true)
     public PostDto findOne(Long postId) {

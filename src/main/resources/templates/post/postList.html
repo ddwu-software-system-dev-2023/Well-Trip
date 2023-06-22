@@ -16,6 +16,14 @@
     <button type="button" id="create-btn"
             th:onclick="|location.href='@{/posts/new}'|"
             class="btn btn-secondary btn-sm mb-3">게시물 등록</button>
+    <button type="button"
+            th:if="${userId} != 0"
+            th:onclick="'javascript:getMyScrap('+${userId}+')'"
+            class="btn btn-secondary btn-sm mb-3">내가 스크랩한 글 확인</button>
+    <button type="button"
+            th:if="${userId} != 0"
+            th:onclick="'javascript:getMyPost('+${userId}+')'"
+            class="btn btn-secondary btn-sm mb-3">내가 쓴 글 확인</button>
     <div class="row-6" th:each="item : ${posts}">
         <div class="card">
             <div class="card-header" th:text="${item.id}">
@@ -31,6 +39,15 @@
     <!-- Footer 위치 -->
     <div th:include="~{/common/footer}"></div>
 </div>
+<script>
+    function getMyPost(userId) {
+        const link = "/posts/my/" + userId;
+        location.href = link;
+    }
 
-<script src="/js/article.js"></script>
+    function getMyScrap(userId) {
+        const link = "/posts/scrap/" + userId;
+        location.href = link;
+    }
+</script>
 </body>

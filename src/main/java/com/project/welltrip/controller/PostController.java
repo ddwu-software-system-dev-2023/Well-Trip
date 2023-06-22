@@ -39,9 +39,59 @@ public class PostController {
 
     // 게시물 목록 보기
     @GetMapping("/posts")
-    public String view(Model model) {
+    public String view(HttpServletRequest request, Model model) {
+        UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        User user = null;
+        if (userSession != null) {
+            user = userSession.getUser();
+        }
+
         List<PostDto> postDtos = postService.findAll();
         model.addAttribute("posts", postDtos);
+        if (user == null) {
+            model.addAttribute("userId", 0);
+        } else {
+            model.addAttribute("userId", user.getId());
+        }
+        return "post/postList";
+    }
+
+    // 내가 스크랩한 글 보기
+    @GetMapping("/posts/scrap/{userId}")
+    public String getMyScrap(HttpServletRequest request, @PathVariable("userId") Long userId, Model model) {
+        UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        if (userSession == null) {
+            return "redirect:/login";
+        }
+        User user = userSession.getUser();
+
+        List<PostDto> postDtos = postService.findMyScrap(user.getId());
+        model.addAttribute("posts", postDtos);
+        if (user == null) {
+            model.addAttribute("userId", 0);
+        } else {
+            model.addAttribute("userId", user.getId());
+        }
+        return "post/postList";
+    }
+
+
+    // 내가 작성한 글 보기
+    @GetMapping("/posts/my/{userId}")
+    public String getMyPost(HttpServletRequest request, @PathVariable("userId") Long userId, Model model) {
+        UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        if (userSession == null) {
+            return "redirect:/login";
+        }
+        User user = userSession.getUser();
+
+        List<PostDto> postDtos = postService.findMyPost(user.getId());
+        model.addAttribute("posts", postDtos);
+        if (user == null) {
+            model.addAttribute("userId", 0);
+        } else {
+            model.addAttribute("userId", user.getId());
+        }
         return "post/postList";
     }
 
@@ -50,6 +100,9 @@ public class PostController {
     @GetMapping("/posts/new")
     public String createForm(HttpServletRequest request, Model model) {
         UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        if (userSession == null) {
+            return "redirect:/login";
+        }
         User user = userSession.getUser();
 
         List<Place> places = placeRepository.findAll();
@@ -70,6 +123,9 @@ public class PostController {
         }
 
         UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        if (userSession == null) {
+            return "redirect:/login";
+        }
         User user = userSession.getUser();
 
         PostCreateDto postCreateDto = new PostCreateDto(postForm.getPostId(), null, postForm.getTitle(), postForm.getContent(), postForm.getPlaceId(), postForm.getTravelId(), null, null);
@@ -86,7 +142,13 @@ public class PostController {
 
     // 글 상세보기
     @GetMapping("posts/{postId}")
-    public String viewDetail(@PathVariable("postId") Long postId, Model model) {
+    public String viewDetail(HttpServletRequest request, @PathVariable("postId") Long postId, Model model) {
+        UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        User user = null;
+        if (userSession != null) {
+            user = userSession.getUser();
+        }
+
         PostDto postDto = postService.findOne(postId);
         List<Comment> comments = commentRepository.findByPost(postId);
         CommentDto commentDto = new CommentDto();
@@ -96,6 +158,11 @@ public class PostController {
         model.addAttribute("comments", comments);
         model.addAttribute("commentForm", commentDto);
         model.addAttribute("likeCount", likes.size());
+        if (user == null) {
+            model.addAttribute("userId", 0);
+        } else {
+            model.addAttribute("userId", user.getId());
+        }
         return "post/postDetail";
     }
 
@@ -157,6 +224,9 @@ public class PostController {
     @GetMapping("posts/{postId}/scrap")
     public String createScrap(HttpServletRequest request, @PathVariable("postId") Long postId) {
         UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        if (userSession == null) {
+            return "redirect:/login";
+        }
         User user = userSession.getUser();
 
         // TODO: userId를 현재 로그인한 유저의 아이디로 변경
@@ -178,6 +248,9 @@ public class PostController {
     @GetMapping("posts/{postId}/like")
     public String createLike(HttpServletRequest request, @PathVariable("postId") Long postId) {
         UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        if (userSession == null) {
+            return "redirect:/login";
+        }
         User user = userSession.getUser();
 
         // TODO: userId를 현재 로그인한 유저의 아이디로 변경
