@@ -173,7 +173,15 @@ public class PostController {
         User user = userSession.getUser();
 
         Post post = postRepository.findById(postId).get();
-        PostCreateDto postDto = new PostCreateDto(postId, post.getWriter(), post.getTitle(), post.getContent(), post.getPlace().getId(), post.getTravel().getId(), post.getPlace(), post.getTravel());
+        Long placeId = null;
+        Long travelId = null;
+        if (post.getPlace() != null) {
+            placeId = post.getPlace().getId();
+        }
+        if (post.getTravel() != null) {
+            travelId = post.getTravel().getId();
+        }
+        PostCreateDto postDto = new PostCreateDto(postId, post.getWriter(), post.getTitle(), post.getContent(), placeId, travelId, post.getPlace(), post.getTravel());
 
         List<Place> places = placeRepository.findAll();
         // TODO 로그인한 유저 id로 바꾸기
@@ -200,6 +208,9 @@ public class PostController {
         }
 
         UserSession userSession = (UserSession) request.getSession().getAttribute("userSession");
+        if (userSession == null) {
+            return "redirect:/login";
+        }
         User user = userSession.getUser();
 
         CommentDto commentDto = new CommentDto(commentForm.getCommentId(), null, null, commentForm.getCreatedDate(), commentForm.getContent());

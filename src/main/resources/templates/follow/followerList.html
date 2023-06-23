@@ -117,18 +117,6 @@
 
 </div>
 
-<table>
-    <tr th:each="test : ${testList}">
-        <!--        <td th:text="${test.createdDate}"></td>-->
-        <td class="text_td" th:text="${test.firstName}"></td>
-        <td class="text_td" th:text="${test.lastName}"></td>
-        <td class="text_td" th:text="${test.email}"></td>
-        <td class="text_td"><a class="followListA" href="#"
-                               th:href="@{/follow/newFollow/{followId}(followId=${test.id})}">
-            Follow
-        </a></td>
-    </tr>
-</table>
 
 </body>
 </html>
